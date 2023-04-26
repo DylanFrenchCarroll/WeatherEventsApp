@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Weather Events</string>
+    <string name="eventTitle">Welcome Homer</string>
+    <string name="eventSubtitle">Please Give Generously</string>
+    <string name="eventButton">Event</string>
+    <string name="paypal">PayPal</string>
+    <string name="direct">Direct</string>
+    <string name="amount">Amount</string>
+    <string name="total">Total so Far</string>
+    <string name="totalSoFar">$%d</string>
+    <string name="reportTitle">Events Report</string>
+    <string name="defaultAmount">00</string>
+    <string name="defaultMethod">N/A</string>
+    <string name="enter_amount">Enter Amount</string>
+    <string name="action_event">Event</string>
+    <string name="action_report">Report</string>
+</resources>
