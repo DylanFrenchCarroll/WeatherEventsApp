@@ -16,8 +16,9 @@ class EventMemStore : EventStore {
         return events
     }
 
-    override fun findById(id: Long): EventModel? {
-        return events.find { it.id == id }
+    override fun findById(id:Long) : EventModel? {
+        val foundEvent: EventModel? = events.find { it.id == id }
+        return foundEvent
     }
 
     override fun create(event: EventModel) {

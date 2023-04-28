@@ -26,9 +26,9 @@ class EventAdapter constructor(private var events: List<EventModel>)
 
     inner class MainHolder(val binding : CardEventBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(event: EventModel) {
-            binding.paymentamount.text = event.amount.toString()
-            binding.paymentmethod.text = event.paymentmethod
+        fun bind(evenb: EventModel) {
+            binding.paymentamount.text = evenb.amount.toString()
+            binding.paymentmethod.text = evenb.paymentmethod
             binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
         }
     }

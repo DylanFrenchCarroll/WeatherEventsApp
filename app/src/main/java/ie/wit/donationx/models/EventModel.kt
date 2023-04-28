@@ -3,6 +3,7 @@ package ie.wit.donationx.models
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
+
 @Parcelize
 data class EventModel(var id: Long = 0,
                       val paymentmethod: String = "N/A",

@@ -5,7 +5,7 @@ import ie.wit.donationx.models.EventMemStore
 import ie.wit.donationx.models.EventStore
 import timber.log.Timber
 
-class WeatherEventApp : Application() {
+class WeatherEvents : Application() {
 
     lateinit var eventsStore: EventStore
 
@@ -13,6 +13,6 @@ class WeatherEventApp : Application() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         eventsStore = EventMemStore()
-        Timber.i("Weather Event Application Started")
+        Timber.i("Weather Events Application Started")
     }
 }

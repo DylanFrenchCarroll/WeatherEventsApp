@@ -1,4 +1,4 @@
-package org.wit.donationx
+package ie.wit.donationx
 
 import org.junit.Test
 

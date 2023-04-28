@@ -1,4 +1,4 @@
-package org.wit.donationx
+package ie.wit.donationx
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("org.wit.donationx", appContext.packageName)
+        assertEquals("ie.wit.donationx", appContext.packageName)
     }
 }
