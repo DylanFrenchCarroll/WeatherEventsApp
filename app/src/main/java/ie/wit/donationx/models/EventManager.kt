@@ -8,7 +8,7 @@ internal fun getId(): Long {
     return lastId++
 }
 
-class EventMemStore : EventStore {
+object EventManager : EventStore {
 
     val events = ArrayList<EventModel>()
 

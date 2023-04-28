@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/eventFragment">
+    app:startDestination="@id/reportFragment">
 
     <fragment
         android:id="@+id/eventFragment"
@@ -26,10 +26,25 @@
             app:destination="@id/eventFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_reportFragment_to_eventDetailFragment"
+            app:destination="@id/eventDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
         android:name="ie.wit.donationx.ui.about.AboutFragment"
         android:label="@string/action_about"
         tools:layout="@layout/fragment_about" />
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="ie.wit.donationx.ui.detail.EventDetailFragment"
+        android:label="fragment_event_detail"
+        tools:layout="@layout/fragment_event_detail" >
+        <action
+            android:id="@+id/action_eventDetailFragment_to_reportFragment"
+            app:destination="@id/reportFragment" />
+        <argument
+            android:name="eventid"
+            app:argType="long" />
+    </fragment>
 </navigation>

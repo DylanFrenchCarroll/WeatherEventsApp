@@ -7,7 +7,13 @@ import ie.wit.donationx.R
 import ie.wit.donationx.databinding.CardEventBinding
 import ie.wit.donationx.models.EventModel
 
-class EventAdapter constructor(private var events: List<EventModel>)
+
+interface EventClickListener {
+    fun onEventClick(event: EventModel)
+}
+
+class EventAdapter constructor(private var events: List<EventModel>,
+                                  private val listener: EventClickListener)
     : RecyclerView.Adapter<EventAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -19,17 +25,18 @@ class EventAdapter constructor(private var events: List<EventModel>)
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val event = events[holder.adapterPosition]
-        holder.bind(event)
+        holder.bind(event,listener)
     }
 
     override fun getItemCount(): Int = events.size
 
     inner class MainHolder(val binding : CardEventBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(evenb: EventModel) {
-            binding.paymentamount.text = evenb.amount.toString()
-            binding.paymentmethod.text = evenb.paymentmethod
+        fun bind(event: EventModel, listener: EventClickListener) {
+            binding.event = event
             binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
+            binding.root.setOnClickListener { listener.onEventClick(event) }
+            binding.executePendingBindings()
         }
     }
 }
