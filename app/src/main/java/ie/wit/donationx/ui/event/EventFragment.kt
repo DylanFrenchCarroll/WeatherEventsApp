@@ -36,8 +36,8 @@ class EventFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         _fragBinding = FragmentEventBinding.inflate(inflater, container, false)
         val root = fragBinding.root
-        activity?.title = getString(R.string.action_event)
-        setupMenu()
+//        activity?.title = getString(R.string.action_event)
+//        setupMenu()
 
         eventViewModel = ViewModelProvider(this).get(EventViewModel::class.java)
         eventViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
@@ -56,21 +56,21 @@ class EventFragment : Fragment() {
         return root;
     }
 
-    private fun setupMenu() {
-        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
-            override fun onPrepareMenu(menu: Menu) {
-                // Handle for example visibility of menu items
-            }
-
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_event, menu)
-            }
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                // Validate and handle the selected menu item
-                return NavigationUI.onNavDestinationSelected(menuItem,
-                    requireView().findNavController())
-            }       }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-    }
+//    private fun setupMenu() {
+//        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+//            override fun onPrepareMenu(menu: Menu) {
+//                // Handle for example visibility of menu items
+//            }
+//
+//            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+//                menuInflater.inflate(R.menu.menu_event, menu)
+//            }
+//            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+//                // Validate and handle the selected menu item
+//                return NavigationUI.onNavDestinationSelected(menuItem,
+//                    requireView().findNavController())
+//            }       }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+//    }
 
     private fun render(status: Boolean) {
         when (status) {
@@ -99,6 +99,20 @@ class EventFragment : Fragment() {
             }
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_event, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item,
+            requireView().findNavController()) || super.onOptionsItemSelected(item)
+    }
+
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+//    }
 
     override fun onResume() {
         super.onResume()

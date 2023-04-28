@@ -30,5 +30,7 @@
     <string name="payment">Payment :</string>
     <string name="message">Message :</string>
     <string name="upvotes">UpVotes :</string>
+<!--    <string name="total_donated">$%d</string>-->
+<!--    <string name="totalSoFar">$ Total</string>-->
 
 </resources>

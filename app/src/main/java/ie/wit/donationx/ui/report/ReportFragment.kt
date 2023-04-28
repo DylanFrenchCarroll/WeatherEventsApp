@@ -38,7 +38,7 @@ class ReportFragment : Fragment(), EventClickListener{
     ): View? {
         _fragBinding = FragmentReportBinding.inflate(inflater, container, false)
         val root = fragBinding.root
-        setupMenu()
+
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
         reportViewModel = ViewModelProvider(this).get(ReportViewModel::class.java)
@@ -55,20 +55,14 @@ class ReportFragment : Fragment(), EventClickListener{
         return root
     }
 
-    private fun setupMenu() {
-        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
-            override fun onPrepareMenu(menu: Menu) {
-                // Handle for example visibility of menu items
-            }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_report, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_report, menu)
-            }
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                // Validate and handle the selected menu item
-                return NavigationUI.onNavDestinationSelected(menuItem,
-                    requireView().findNavController())
-            }     }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item,
+            requireView().findNavController()) || super.onOptionsItemSelected(item)
     }
 
     private fun render(eventsList: List<EventModel>) {
