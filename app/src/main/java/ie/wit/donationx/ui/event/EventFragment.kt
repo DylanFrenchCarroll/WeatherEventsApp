@@ -44,7 +44,7 @@ class EventFragment : Fragment() {
                 status -> status?.let { render(status) }
         })
 
-        fragBinding.progressBar.max = 10000
+        fragBinding.progressBar.max = 1000000000
         fragBinding.amountPicker.minValue = 1
         fragBinding.amountPicker.maxValue = 1000
 
@@ -95,7 +95,7 @@ class EventFragment : Fragment() {
                 totalDonated += amount
                 layout.totalSoFar.text = getString(R.string.totalSoFar,totalDonated)
                 layout.progressBar.progress = totalDonated
-                eventViewModel.addEvent(EventModel(paymentmethod = paymentmethod,amount = amount))
+                eventViewModel.addEvent(EventModel(paymenttype = paymentmethod,amount = amount))
             }
         }
     }
@@ -110,19 +110,24 @@ class EventFragment : Fragment() {
             requireView().findNavController()) || super.onOptionsItemSelected(item)
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
-//    }
-
     override fun onResume() {
         super.onResume()
         val reportViewModel = ViewModelProvider(this).get(ReportViewModel::class.java)
         reportViewModel.observableEventsList.observe(viewLifecycleOwner, Observer {
-            totalDonated = reportViewModel.observableEventsList.value!!.sumOf { it.amount }
+            totalDonated = reportViewModel.observableEventsList.value!!.sumBy { it.amount }
             fragBinding.progressBar.progress = totalDonated
             fragBinding.totalSoFar.text = getString(R.string.totalSoFar,totalDonated)
         })
     }
+//    override fun onResume() {
+//        super.onResume()
+//        val reportViewModel = ViewModelProvider(this).get(ReportViewModel::class.java)
+//        reportViewModel.observableEventsList.observe(viewLifecycleOwner, Observer {
+//            totalDonated = reportViewModel.observableEventsList.value!!.sumOf { it.amount }
+//            fragBinding.progressBar.progress = totalDonated
+//            fragBinding.totalSoFar.text = getString(R.string.totalSoFar,totalDonated)
+//        })
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

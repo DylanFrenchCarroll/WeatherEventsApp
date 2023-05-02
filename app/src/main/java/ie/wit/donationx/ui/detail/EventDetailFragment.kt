@@ -31,10 +31,8 @@ class EventDetailFragment : Fragment() {
         return root
     }
 
-    private fun render(/*donation: DonationModel*/) {
-        // fragBinding.editAmount.setText(donation.amount.toString())
-        // fragBinding.editPaymenttype.text = donation.paymentmethod
-        fragBinding.editMessage.setText("A Message")
+    private fun render() {
+        fragBinding.editMessage.setText("This Message")
         fragBinding.editUpvotes.setText("0")
         fragBinding.eventvm = viewModel
     }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ie.wit.donationx.models.EventManager
 import ie.wit.donationx.models.EventModel
+import timber.log.Timber
 
 class ReportViewModel : ViewModel() {
 
@@ -18,6 +19,22 @@ class ReportViewModel : ViewModel() {
     }
 
     fun load() {
-        eventsList.value = EventManager.findAll()
+        try {
+            EventManager.findAll(eventsList)
+            Timber.i("Retrofit Success : $eventsList.value")
+        }
+        catch (e: Exception) {
+            Timber.i("Retrofit Error : $e.message")
+        }
+    }
+
+    fun delete(id: String) {
+        try {
+            EventManager.delete(id)
+            Timber.i("Retrofit Delete Success")
+        }
+        catch (e: java.lang.Exception) {
+            Timber.i("Retrofit Delete Error : $e.message")
+        }
     }
 }

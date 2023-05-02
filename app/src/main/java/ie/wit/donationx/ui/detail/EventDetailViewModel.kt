@@ -12,7 +12,7 @@ class EventDetailViewModel : ViewModel() {
     val observableEvent: LiveData<EventModel>
         get() = event
 
-    fun getEvent(id: Long) {
+    fun getEvent(id: String) {
         event.value = EventManager.findById(id)
     }
 }

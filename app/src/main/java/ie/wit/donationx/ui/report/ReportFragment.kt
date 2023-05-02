@@ -1,5 +1,6 @@
 package ie.wit.donationx.ui.report
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.MenuHost
@@ -11,7 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ie.wit.donationx.R
 import ie.wit.donationx.adapters.EventAdapter
@@ -19,6 +22,10 @@ import ie.wit.donationx.adapters.EventClickListener
 import ie.wit.donationx.databinding.FragmentReportBinding
 import ie.wit.donationx.main.WeatherEvents
 import ie.wit.donationx.models.EventModel
+import ie.wit.donationx.ui.utils.SwipeToDeleteCallback
+import ie.wit.donationx.ui.utils.createLoader
+import ie.wit.donationx.ui.utils.hideLoader
+import ie.wit.donationx.ui.utils.showLoader
 
 class ReportFragment : Fragment(), EventClickListener{
 
@@ -26,6 +33,7 @@ class ReportFragment : Fragment(), EventClickListener{
     private var _fragBinding: FragmentReportBinding? = null
     private val fragBinding get() = _fragBinding!!
     private lateinit var reportViewModel: ReportViewModel
+    lateinit var loader : AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,13 +46,18 @@ class ReportFragment : Fragment(), EventClickListener{
     ): View? {
         _fragBinding = FragmentReportBinding.inflate(inflater, container, false)
         val root = fragBinding.root
-
+        loader = createLoader(requireActivity())
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
         reportViewModel = ViewModelProvider(this).get(ReportViewModel::class.java)
+        showLoader(loader,"Downloading Events")
         reportViewModel.observableEventsList.observe(viewLifecycleOwner, Observer {
                 events ->
-            events?.let { render(events) }
+            events?.let {
+                render(events as ArrayList<EventModel>)
+                hideLoader(loader)
+                checkSwipeRefresh()
+            }
         })
 
         val fab: FloatingActionButton = fragBinding.fab
@@ -52,6 +65,22 @@ class ReportFragment : Fragment(), EventClickListener{
             val action = ReportFragmentDirections.actionReportFragmentToEventFragment()
             findNavController().navigate(action)
         }
+        setSwipeRefresh()
+
+        val swipeDeleteHandler = object : SwipeToDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                showLoader(loader,"Deleting Event")
+                val adapter = fragBinding.recyclerView.adapter as EventAdapter
+                adapter.removeAt(viewHolder.adapterPosition)
+                reportViewModel.delete(viewHolder.itemView.tag as String)
+                hideLoader(loader)
+            }
+        }
+        val itemTouchDeleteHelper = ItemTouchHelper(swipeDeleteHandler)
+        itemTouchDeleteHelper.attachToRecyclerView(fragBinding.recyclerView)
+
+
+
         return root
     }
 
@@ -65,7 +94,7 @@ class ReportFragment : Fragment(), EventClickListener{
             requireView().findNavController()) || super.onOptionsItemSelected(item)
     }
 
-    private fun render(eventsList: List<EventModel>) {
+    private fun render(eventsList: ArrayList<EventModel>) {
         fragBinding.recyclerView.adapter = EventAdapter(eventsList, this)
         if (eventsList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
@@ -77,8 +106,20 @@ class ReportFragment : Fragment(), EventClickListener{
     }
 
     override fun onEventClick(event: EventModel) {
-        val action = ReportFragmentDirections.actionReportFragmentToEventDetailFragment(event.id)
+        val action = ReportFragmentDirections.actionReportFragmentToEventDetailFragment(event._id)
         findNavController().navigate(action)
+    }
+
+    fun setSwipeRefresh() {
+        fragBinding.swiperefresh.setOnRefreshListener {
+            fragBinding.swiperefresh.isRefreshing = true
+            showLoader(loader,"Downloading Events")
+            reportViewModel.load()
+        }
+    }
+    fun checkSwipeRefresh() {
+        if (fragBinding.swiperefresh.isRefreshing)
+            fragBinding.swiperefresh.isRefreshing = false
     }
 
     override fun onResume() {
@@ -90,4 +131,7 @@ class ReportFragment : Fragment(), EventClickListener{
         super.onDestroyView()
         _fragBinding = null
     }
+
+
+
 }

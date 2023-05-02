@@ -12,7 +12,7 @@ interface EventClickListener {
     fun onEventClick(event: EventModel)
 }
 
-class EventAdapter constructor(private var events: List<EventModel>,
+class EventAdapter constructor(private var events: ArrayList<EventModel>,
                                   private val listener: EventClickListener)
     : RecyclerView.Adapter<EventAdapter.MainHolder>() {
 
@@ -30,13 +30,22 @@ class EventAdapter constructor(private var events: List<EventModel>,
 
     override fun getItemCount(): Int = events.size
 
-    inner class MainHolder(val binding : CardEventBinding) : RecyclerView.ViewHolder(binding.root) {
-
+    inner class MainHolder(val binding : CardEventBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(event: EventModel, listener: EventClickListener) {
+            binding.root.tag = event._id
             binding.event = event
             binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
             binding.root.setOnClickListener { listener.onEventClick(event) }
             binding.executePendingBindings()
         }
     }
+
+
+
+    fun removeAt(position: Int) {
+        events.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
 }
