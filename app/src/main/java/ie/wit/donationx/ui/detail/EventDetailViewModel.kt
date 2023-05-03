@@ -5,14 +5,34 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import ie.wit.donationx.models.EventManager
 import ie.wit.donationx.models.EventModel
+import timber.log.Timber
+
+
 
 class EventDetailViewModel : ViewModel() {
     private val event = MutableLiveData<EventModel>()
 
-    val observableEvent: LiveData<EventModel>
+    var observableEvent: LiveData<EventModel>
         get() = event
+        set(value) {event.value = value.value}
 
-    fun getEvent(id: String) {
-        event.value = EventManager.findById(id)
+    fun getEvent(email:String, id: String) {
+        try {
+            EventManager.findById(email, id, event)
+            Timber.i("Detail getEvent() Success : ${event.value.toString()}")
+        }
+        catch (e: Exception) {
+            Timber.i("Detail getEvent() Error : $e.message")
+        }
+    }
+
+    fun updateEvent(email:String, id: String, event: EventModel) {
+        try {
+            EventManager.update(email, id, event)
+            Timber.i("Detail update() Success : $event")
+        }
+        catch (e: Exception) {
+            Timber.i("Detail update() Error : $e.message")
+        }
     }
 }

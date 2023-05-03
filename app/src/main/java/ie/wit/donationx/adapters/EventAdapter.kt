@@ -33,7 +33,7 @@ class EventAdapter constructor(private var events: ArrayList<EventModel>,
     inner class MainHolder(val binding : CardEventBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(event: EventModel, listener: EventClickListener) {
-            binding.root.tag = event._id
+            binding.root.tag = event
             binding.event = event
             binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
             binding.root.setOnClickListener { listener.onEventClick(event) }

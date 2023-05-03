@@ -54,6 +54,7 @@
         android:textAlignment="viewStart"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        android:text="@={eventvm.observableEvent.message}"
         app:layout_constraintTop_toBottomOf="@+id/editPaymenttype" />
 
     <TextView
@@ -68,7 +69,8 @@
         android:textColor="@color/color_primary"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editAmount" />
+        app:layout_constraintTop_toBottomOf="@+id/editAmount"
+        tools:ignore="RtlCompat" />
 
     <EditText
         android:id="@+id/editUpvotes"
@@ -79,6 +81,7 @@
         android:ems="10"
         android:inputType="number"
         android:textSize="24sp"
+        android:text="@={``+ eventvm.observableEvent.upvotes}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editMessage" />
 
@@ -92,7 +95,7 @@
         android:inputType="number"
         android:textAlignment="viewStart"
         android:textSize="24sp"
-        android:text="@{Integer.toString(eventvm.observableEvent.amount)}"
+        android:text="@={``+ eventvm.observableEvent.amount}"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -130,7 +133,7 @@
         android:id="@+id/editEventButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Edit"
+        android:text="@string/update"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/deleteEventButton"
         app:layout_constraintHorizontal_chainStyle="packed"
@@ -140,7 +143,7 @@
         android:id="@+id/deleteEventButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Delete"
+        android:text="@string/delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editEventButton" />

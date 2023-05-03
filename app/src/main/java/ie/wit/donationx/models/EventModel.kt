@@ -4,9 +4,12 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
-
 @Parcelize
-data class EventModel(var _id: String = "N/A",
-                         val paymenttype: String = "N/A",
-                         val amount: Int = 0,
-                         val message: String = "n/a") : Parcelable
+data class EventModel(
+    val _id: String = "N/A",
+    @SerializedName("paymenttype")
+    val paymenttype: String = "N/A",
+    var message: String = "n/a",
+    var amount: Int = 0,
+    var upvotes: Int = 0,
+    val email: String = "joe@bloggs.com") : Parcelable

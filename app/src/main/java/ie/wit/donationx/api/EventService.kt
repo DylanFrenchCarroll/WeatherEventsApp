@@ -7,21 +7,31 @@ import retrofit2.http.*
 
 interface EventService {
     @GET("/donations")
-    fun getall(): Call<List<EventModel>>
+    fun findall(): Call<List<EventModel>>
 
-    @GET("/donations/{id}")
-    fun get(@Path("id") id: String): Call<EventModel>
+    @GET("/donations/{email}")
+    fun findall(@Path("email") email: String?)
+            : Call<List<EventModel>>
 
-    @DELETE("/donations/{id}")
-    fun delete(@Path("id") id: String): Call<EventWrapper>
+    @GET("/donations/{email}/{id}")
+    fun get(@Path("email") email: String?,
+            @Path("id") id: String): Call<EventModel>
 
-    @POST("/donations")
-    fun post(@Body event: EventModel): Call<EventWrapper>
+    @DELETE("/donations/{email}/{id}")
+    fun delete(@Path("email") email: String?,
+               @Path("id") id: String): Call<EventWrapper>
 
-    @PUT("/donations/{id}")
-    fun put(@Path("id") id: String,
+    @POST("/donations/{email}")
+    fun post(@Path("email") email: String?,
+             @Body event: EventModel)
+            : Call<EventWrapper>
+
+    @PUT("/donations/{email}/{id}")
+    fun put(@Path("email") email: String?,
+            @Path("id") id: String,
             @Body event: EventModel
     ): Call<EventWrapper>
 }
+
 
 

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "177701868861",
+    "project_id": "msc-mobile-dev",
+    "storage_bucket": "msc-mobile-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177701868861:android:2b82868d2eceb15ecc2154",
+        "android_client_info": {
+          "package_name": "ie.wit.donationx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "177701868861-umkpinjhlrd0q2ldsh0c67iors6puoa5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBveOGelepjRYuzgkBpTLt7oFU8YXxy64s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "177701868861-umkpinjhlrd0q2ldsh0c67iors6puoa5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
