@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "177701868861",
+    "firebase_url": "https://msc-mobile-dev-default-rtdb.firebaseio.com",
     "project_id": "msc-mobile-dev",
     "storage_bucket": "msc-mobile-dev.appspot.com"
   },

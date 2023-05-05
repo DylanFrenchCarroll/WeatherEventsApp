@@ -101,7 +101,8 @@ class EventFragment : Fragment() {
                 totalDonated += amount
                 layout.totalSoFar.text = String.format(getString(R.string.totalSoFar),totalDonated)
                 layout.progressBar.progress = totalDonated
-                eventViewModel.addEvent(EventModel(paymenttype = paymentmethod, amount = amount, email = loggedInViewModel.liveFirebaseUser.value?.email!!))
+
+                eventViewModel.addEvent(loggedInViewModel.liveFirebaseUser,EventModel(    paymenttype   = paymentmethod, amount = amount, email = loggedInViewModel.liveFirebaseUser.value?.email!!))
             }
         }
     }

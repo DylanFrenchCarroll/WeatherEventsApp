@@ -3,7 +3,8 @@ package ie.wit.donationx.ui.event
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ie.wit.donationx.models.EventManager
+import com.google.firebase.auth.FirebaseUser
+import ie.wit.donationx.firebase.FirebaseDBManager
 import ie.wit.donationx.models.EventModel
 
 class EventViewModel : ViewModel() {
@@ -13,12 +14,14 @@ class EventViewModel : ViewModel() {
     val observableStatus: LiveData<Boolean>
         get() = status
 
-    fun addEvent(event: EventModel) {
+
+    fun addEvent(firebaseUser: MutableLiveData<FirebaseUser>, event: EventModel) {
         status.value = try {
-            EventManager.create(event)
+            FirebaseDBManager.create(firebaseUser,event)
             true
         } catch (e: IllegalArgumentException) {
             false
         }
     }
+
 }
