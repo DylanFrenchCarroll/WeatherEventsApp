@@ -12,8 +12,27 @@ object FirebaseDBManager : EventStore {
 
 
     override fun findAll(eventsList: MutableLiveData<List<EventModel>>) {
-        TODO("Not yet implemented")
+        database.child("donations")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase Event error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<EventModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        val event = it.getValue(EventModel::class.java)
+                        localList.add(event!!)
+                    }
+                    database.child("donations")
+                        .removeEventListener(this)
+
+                    eventsList.value = localList
+                }
+            })
     }
+
 
     override fun findAll(userid: String, eventsList: MutableLiveData<List<EventModel>>) {
 

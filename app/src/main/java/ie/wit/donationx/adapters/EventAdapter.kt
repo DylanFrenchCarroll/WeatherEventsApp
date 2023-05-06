@@ -11,16 +11,16 @@ import ie.wit.donationx.models.EventModel
 interface EventClickListener {
     fun onEventClick(event: EventModel)
 }
-
 class EventAdapter constructor(private var events: ArrayList<EventModel>,
-                                  private val listener: EventClickListener)
+                                  private val listener: EventClickListener,
+                                  private val readOnly: Boolean)
     : RecyclerView.Adapter<EventAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardEventBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return MainHolder(binding)
+        return MainHolder(binding,readOnly)
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
@@ -28,10 +28,18 @@ class EventAdapter constructor(private var events: ArrayList<EventModel>,
         holder.bind(event,listener)
     }
 
+    fun removeAt(position: Int) {
+        events.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
     override fun getItemCount(): Int = events.size
 
-    inner class MainHolder(val binding : CardEventBinding) :
+    inner class MainHolder(val binding : CardEventBinding, private val readOnly : Boolean) :
         RecyclerView.ViewHolder(binding.root) {
+
+        val readOnlyRow = readOnly
+
         fun bind(event: EventModel, listener: EventClickListener) {
             binding.root.tag = event
             binding.event = event
@@ -40,12 +48,4 @@ class EventAdapter constructor(private var events: ArrayList<EventModel>,
             binding.executePendingBindings()
         }
     }
-
-
-
-    fun removeAt(position: Int) {
-        events.removeAt(position)
-        notifyItemRemoved(position)
-    }
-
 }
