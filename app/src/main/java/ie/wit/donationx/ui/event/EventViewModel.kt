@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
 import ie.wit.donationx.firebase.FirebaseDBManager
+import ie.wit.donationx.firebase.FirebaseImageManager
 import ie.wit.donationx.models.EventModel
 
 class EventViewModel : ViewModel() {
@@ -17,6 +18,7 @@ class EventViewModel : ViewModel() {
 
     fun addEvent(firebaseUser: MutableLiveData<FirebaseUser>, event: EventModel) {
         status.value = try {
+            event.profilepic = FirebaseImageManager.imageUri.value.toString()
             FirebaseDBManager.create(firebaseUser,event)
             true
         } catch (e: IllegalArgumentException) {

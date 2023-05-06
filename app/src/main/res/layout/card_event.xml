@@ -8,6 +8,7 @@
             name="event"
             type="ie.wit.donationx.models.EventModel" />
     </data>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/imageIcon"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="16dp"
@@ -36,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="8dp"
                 android:layout_toEndOf="@+id/imageIcon"
                 android:text="@{Integer.toString(event.amount)}"
                 android:textSize="24sp"
@@ -48,9 +49,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="17dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="8dp"
                 android:layout_toEndOf="@+id/paymentamount"
                 android:text="@{event.paymenttype}"
+                android:textColor="@color/black"
                 android:textSize="24sp"
                 tools:text="@string/paypal" />
 
@@ -65,6 +67,18 @@
                 android:layout_marginEnd="5dp"
                 android:layout_toEndOf="@id/paymentmethod"
                 app:srcCompat="@android:drawable/star_big_off" />
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/paymentamount"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@+id/imageIcon"
+                android:text="@{event.message}"
+                android:textColor="@color/color_primary"
+                tools:text="message" />
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

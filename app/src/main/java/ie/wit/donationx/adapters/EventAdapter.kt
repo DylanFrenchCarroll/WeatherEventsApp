@@ -2,10 +2,13 @@ package ie.wit.donationx.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import ie.wit.donationx.R
 import ie.wit.donationx.databinding.CardEventBinding
 import ie.wit.donationx.models.EventModel
+import ie.wit.donationx.ui.utils.customTransformation
 
 
 interface EventClickListener {
@@ -44,6 +47,12 @@ class EventAdapter constructor(private var events: ArrayList<EventModel>,
             binding.root.tag = event
             binding.event = event
             binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
+            Picasso.get().load(event.profilepic.toUri())
+                .resize(200, 200)
+                .transform(customTransformation())
+                .centerCrop()
+                .into(binding.imageIcon)
+
             binding.root.setOnClickListener { listener.onEventClick(event) }
             binding.executePendingBindings()
         }

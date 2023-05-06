@@ -9,11 +9,12 @@ import kotlinx.parcelize.Parcelize
 @IgnoreExtraProperties
 @Parcelize
 data class EventModel(
-    var uid: String = "",
+    var uid: String? = "",
     var paymenttype: String = "N/A",
     var amount: Int = 0,
-    var message: String = "a message",
+    var message: String = "Homer for President!",
     var upvotes: Int = 0,
+    var profilepic: String = "",
     var email: String? = "joe@bloggs.com")
     : Parcelable
 {
@@ -25,7 +26,9 @@ data class EventModel(
             "amount" to amount,
             "message" to message,
             "upvotes" to upvotes,
+            "profilepic" to profilepic,
             "email" to email
         )
     }
 }
+
