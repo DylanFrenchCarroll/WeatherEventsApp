@@ -38,7 +38,7 @@
     <fragment
         android:id="@+id/eventDetailFragment"
         android:name="ie.wit.donationx.ui.detail.EventDetailFragment"
-        android:label="fragment_event_detail"
+        android:label="Event Details"
         tools:layout="@layout/fragment_event_detail" >
         <action
             android:id="@+id/action_eventDetailFragment_to_reportFragment"

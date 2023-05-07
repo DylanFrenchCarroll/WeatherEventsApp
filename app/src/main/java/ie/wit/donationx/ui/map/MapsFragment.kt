@@ -2,25 +2,25 @@ package ie.wit.donationx.ui.map
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import androidx.fragment.app.Fragment
-
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
-
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import ie.wit.donationx.R
 import ie.wit.donationx.models.EventModel
@@ -86,15 +86,30 @@ class MapsFragment : Fragment() {
                 else
                     BitmapDescriptorFactory.HUE_RED
 
-                mapsViewModel.map.addMarker(
+                var marker: Marker? = mapsViewModel.map.addMarker(
                     MarkerOptions().position(LatLng(it.latitude, it.longitude))
                         .title("${it.paymenttype} €${it.amount}")
                         .snippet(it.message)
                         .icon(BitmapDescriptorFactory.defaultMarker(markerColour ))
-                )        }
+                )
+
+                //Add data to marker and set on click listener
+                marker!!.tag = it
+                mapsViewModel.map.setOnMarkerClickListener(OnMarkerClickListener { marker ->
+                    onEventClick(marker.tag as EventModel)
+                    false
+                })
+
+            }
         }
     }
 
+     fun onEventClick(event: EventModel) {
+        val action = MapsFragmentDirections.actionMapsFragmentToEventDetailFragment((event.uid!!))
+        if(!reportViewModel.readOnly.value!!){
+            findNavController().navigate(action)
+        }
+    }
 
     override fun onResume() {
         super.onResume()

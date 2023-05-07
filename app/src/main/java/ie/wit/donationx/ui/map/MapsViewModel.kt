@@ -50,6 +50,8 @@ class MapsViewModel(application: Application) : AndroidViewModel(application) {
             }
         Timber.i("MAP VM LOC : %s", currentLocation.value)
     }
+
+
 }
 
 

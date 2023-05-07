@@ -43,7 +43,6 @@ class EventFragment : Fragment() {
         _fragBinding = FragmentEventBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         setupMenu()
-//        activity?.title = getString(R.string.action_event)
 
         eventViewModel = ViewModelProvider(this).get(EventViewModel::class.java)
         eventViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
