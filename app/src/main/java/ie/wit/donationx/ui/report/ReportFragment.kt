@@ -137,11 +137,14 @@ class ReportFragment : Fragment(), EventClickListener{
     }
 
     override fun onEventClick(event: EventModel) {
-        val action = ReportFragmentDirections.actionReportFragmentToEventDetailFragment(event.uid!!)
 
-        if(!reportViewModel.readOnly.value!!){
-            findNavController().navigate(action)
-        }
+            if(event.email == loggedInViewModel.liveFirebaseUser.value?.email ){
+                val action = ReportFragmentDirections.actionReportFragmentToEventDetailFragment(event.uid!!)
+                findNavController().navigate(action)
+            }else{
+                val action = ReportFragmentDirections.actionReportFragmentToReadOnlyEvent(event)
+                findNavController().navigate(action)
+            }
     }
 
     fun setSwipeRefresh() {

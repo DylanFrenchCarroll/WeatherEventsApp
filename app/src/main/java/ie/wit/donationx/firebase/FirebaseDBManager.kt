@@ -69,6 +69,17 @@ object FirebaseDBManager : EventStore {
             }
     }
 
+    override fun findById( eventid: String, event: MutableLiveData<EventModel>) {
+
+        database.child("donations")
+            .child(eventid).get().addOnSuccessListener {
+                event.value = it.getValue(EventModel::class.java)
+                Timber.i("firebase Got value ${it.value}")
+            }.addOnFailureListener{
+                Timber.e("firebase Error getting data $it")
+            }
+    }
+
 
     override fun create(firebaseUser: MutableLiveData<FirebaseUser>, event: EventModel) {
         Timber.i("Firebase DB Reference : $database")
