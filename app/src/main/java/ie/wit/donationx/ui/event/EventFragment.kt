@@ -19,6 +19,7 @@ import ie.wit.donationx.databinding.FragmentEventBinding
 import ie.wit.donationx.models.EventModel
 import ie.wit.donationx.ui.auth.LoggedInViewModel
 import ie.wit.donationx.ui.event.EventViewModel
+import ie.wit.donationx.ui.map.MapsViewModel
 import ie.wit.donationx.ui.report.ReportViewModel
 
 class EventFragment : Fragment() {
@@ -30,6 +31,7 @@ class EventFragment : Fragment() {
     private lateinit var eventViewModel: EventViewModel
     private val reportViewModel: ReportViewModel by activityViewModels()
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+    private val mapsViewModel: MapsViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,7 +104,11 @@ class EventFragment : Fragment() {
                 layout.totalSoFar.text = String.format(getString(R.string.totalSoFar),totalDonated)
                 layout.progressBar.progress = totalDonated
 
-                eventViewModel.addEvent(loggedInViewModel.liveFirebaseUser,EventModel(    paymenttype   = paymentmethod, amount = amount, email = loggedInViewModel.liveFirebaseUser.value?.email!!))
+                eventViewModel.addEvent(loggedInViewModel.liveFirebaseUser,
+                    EventModel(paymenttype = paymentmethod,amount = amount,
+                        email = loggedInViewModel.liveFirebaseUser.value?.email!!,
+                        latitude = mapsViewModel.currentLocation.value!!.latitude,
+                        longitude = mapsViewModel.currentLocation.value!!.longitude))
             }
         }
     }

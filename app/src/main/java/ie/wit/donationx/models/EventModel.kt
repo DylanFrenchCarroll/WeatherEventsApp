@@ -15,7 +15,10 @@ data class EventModel(
     var message: String = "Homer for President!",
     var upvotes: Int = 0,
     var profilepic: String = "",
-    var email: String? = "joe@bloggs.com")
+    var email: String? = "joe@bloggs.com",
+    var latitude: Double = 0.0,
+    var longitude: Double = 0.0
+)
     : Parcelable
 {
     @Exclude
@@ -27,7 +30,9 @@ data class EventModel(
             "message" to message,
             "upvotes" to upvotes,
             "profilepic" to profilepic,
-            "email" to email
+            "email" to email,
+            "latitude" to latitude,
+            "longitude" to longitude
         )
     }
 }
