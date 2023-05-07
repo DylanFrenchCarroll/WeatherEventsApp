@@ -13,12 +13,14 @@ import ie.wit.donationx.ui.utils.customTransformation
 import timber.log.Timber
 import java.io.ByteArrayOutputStream
 import com.squareup.picasso.Target
+import java.util.UUID
 
 object FirebaseImageManager {
 
     var storage = FirebaseStorage.getInstance().reference
     var imageUri = MutableLiveData<Uri>()
-
+    var eventImageUri = MutableLiveData<Uri>()
+    lateinit var imageUrl : String
     fun checkStorageForExistingProfilePic(userid: String) {
         val imageRef = storage.child("photos").child("${userid}.jpg")
         val defaultImageRef = storage.child("homer.jpg")
@@ -111,6 +113,60 @@ object FirebaseImageManager {
             })
     }
 
+
+
+
+
+   fun uploadImageEvent (uuid: String, imageUri : Uri? ){
+       Picasso.get().load(imageUri)
+           .resize(400, 400)
+           .transform(customTransformation())
+           .memoryPolicy(MemoryPolicy.NO_CACHE)
+           .centerCrop()
+           .into(object : Target {
+               override fun onBitmapLoaded( bitmap: Bitmap?, from: Picasso.LoadedFrom? ) {
+                   Timber.i("DX onBitmapLoaded $bitmap")
+                   uploadEventImageToFirebase(uuid, bitmap!!)
+               }
+
+               override fun onBitmapFailed(e: java.lang.Exception?,
+                                           errorDrawable: Drawable?) {
+                   Timber.i("DX onBitmapFailed $e")
+               }
+
+               override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+           })
+   }
+
+    fun uploadEventImageToFirebase( photoUUID: String, bitmap: Bitmap) {
+
+        val imageRef = storage.child("event-photos")
+        val baos = ByteArrayOutputStream()
+        lateinit var uploadTask: UploadTask
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+
+        imageRef.metadata.addOnSuccessListener { //File Exists
+
+                uploadTask = imageRef.putBytes(data)
+                uploadTask.addOnSuccessListener { ut ->
+                    ut.metadata!!.reference!!.downloadUrl.addOnCompleteListener { task ->
+                        imageUri.value = task.result!!
+                    }
+                }
+
+        }
+
+            .addOnFailureListener { //File Doesn't Exist
+            uploadTask = imageRef.putBytes(data)
+            uploadTask.addOnSuccessListener { ut ->
+                ut.metadata!!.reference!!.downloadUrl.addOnCompleteListener { task ->
+                    imageUri.value = task.result!!
+                }
+            }
+        }
+    }
 
 
 }

@@ -40,7 +40,6 @@ class ReadOnlyEventFragment : Fragment() {
 
     private fun render() {
         fragBinding.editMessage.setText("This Message")
-        fragBinding.editUpvotes.setText("0")
         fragBinding.eventvm = viewModel
     }
 

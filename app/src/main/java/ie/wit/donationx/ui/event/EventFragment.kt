@@ -1,9 +1,17 @@
 package ie.wit.donationx.ui.event
 
+import android.app.Activity.RESULT_CANCELED
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import android.widget.TextView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -14,13 +22,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.squareup.picasso.Picasso
 import ie.wit.donationx.R
 import ie.wit.donationx.databinding.FragmentEventBinding
+import ie.wit.donationx.firebase.FirebaseImageManager
 import ie.wit.donationx.models.EventModel
 import ie.wit.donationx.ui.auth.LoggedInViewModel
-import ie.wit.donationx.ui.event.EventViewModel
 import ie.wit.donationx.ui.map.MapsViewModel
 import ie.wit.donationx.ui.report.ReportViewModel
+import ie.wit.donationx.ui.utils.NothingSelectedSpinnerAdapter
+import ie.wit.donationx.ui.utils.showImagePicker
+import timber.log.Timber.i
+import java.util.UUID
 
 class EventFragment : Fragment() {
 
@@ -32,10 +45,11 @@ class EventFragment : Fragment() {
     private val reportViewModel: ReportViewModel by activityViewModels()
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
     private val mapsViewModel: MapsViewModel by activityViewModels()
+    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var eventImage: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -49,17 +63,29 @@ class EventFragment : Fragment() {
                 status -> status?.let { render(status) }
         })
 
-        fragBinding.progressBar.max = 1000000000
-        fragBinding.amountPicker.minValue = 1
-        fragBinding.amountPicker.maxValue = 1000
-
-        fragBinding.amountPicker.setOnValueChangedListener { _, _, newVal ->
-            //Display the newly selected number to paymentAmount
-            fragBinding.paymentAmount.setText("$newVal")
+        fragBinding.chooseImage.setOnClickListener {
+            i("Select image")
+            showImagePicker(imageIntentLauncher)
         }
+        registerImagePickerCallback()
+        setupDropdown(root)
         setButtonListener(fragBinding)
         return root;
     }
+
+
+    private fun setupDropdown(root: ConstraintLayout){
+        val spinner: Spinner = root.findViewById(R.id.event_type)
+        var adapter : ArrayAdapter<CharSequence> =  ArrayAdapter.createFromResource( this.requireContext()!!, R.array.event_types, android.R.layout.simple_spinner_dropdown_item)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.setPrompt("Select Event Type!");
+        spinner.adapter = NothingSelectedSpinnerAdapter(
+            adapter,
+            R.layout.contact_spinner_row_nothing_selected,  // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
+            this.context
+        )
+    }
+
 
     private fun setupMenu() {
         (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
@@ -79,58 +105,73 @@ class EventFragment : Fragment() {
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
+
     private fun render(status: Boolean) {
         when (status) {
             true -> {
                 view?.let {
-                    //Uncomment this if you want to immediately return to Report
-                    //findNavController().popBackStack()
+                    findNavController().popBackStack()
                 }
             }
             false -> Toast.makeText(context,getString(R.string.eventError),Toast.LENGTH_LONG).show()
         }
     }
 
+
     fun setButtonListener(layout: FragmentEventBinding) {
         layout.eventButton.setOnClickListener {
-            val amount = if (layout.paymentAmount.text.isNotEmpty())
-                layout.paymentAmount.text.toString().toInt() else layout.amountPicker.value
-            if(totalDonated >= layout.progressBar.max)
-                Toast.makeText(context,"Event Amount Exceeded!", Toast.LENGTH_LONG).show()
-            else {
-                val paymentmethod = if(layout.paymentMethod.checkedRadioButtonId == R.id.Direct) "Direct" else "Paypal"
-                totalDonated += amount
-                layout.totalSoFar.text = String.format(getString(R.string.totalSoFar),totalDonated)
-                layout.progressBar.progress = totalDonated
-
-                eventViewModel.addEvent(loggedInViewModel.liveFirebaseUser,
-                    EventModel(paymenttype = paymentmethod,amount = amount,
-                        email = loggedInViewModel.liveFirebaseUser.value?.email!!,
-                        latitude = mapsViewModel.currentLocation.value!!.latitude,
-                        longitude = mapsViewModel.currentLocation.value!!.longitude))
-            }
+                val eventtype = /*if(layout.paymentMethod.checkedRadioButtonId == R.id.Direct) "Direct" else */ "Paypal"
+                val imgID = UUID.randomUUID().toString()
+                eventViewModel.addEvent(loggedInViewModel.liveFirebaseUser, EventModel( eventtype = eventtype,
+                                                                                        email = loggedInViewModel.liveFirebaseUser.value?.email!!,
+                                                                                        eventimg = "${imgID}.jpg",
+                                                                                        latitude = mapsViewModel.currentLocation.value!!.latitude,
+                                                                                        longitude = mapsViewModel.currentLocation.value!!.longitude),
+                    )
+                FirebaseImageManager.uploadImageEvent(imgID, eventImage)
         }
     }
+
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_event, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return NavigationUI.onNavDestinationSelected(item,
             requireView().findNavController()) || super.onOptionsItemSelected(item)
     }
 
+
     override fun onResume() {
         super.onResume()
-        totalDonated = reportViewModel.observableEventsList.value!!.sumOf { it.amount }
-        fragBinding.progressBar.progress = totalDonated
-        fragBinding.totalSoFar.text = String.format(getString(R.string.totalSoFar),totalDonated)
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _fragBinding = null
+    }
+
+
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            i("Got Result ${result.data!!.data}")
+                            eventImage = result.data!!.data!!
+                            Picasso.get()
+                                .load(eventImage)
+                                .into(fragBinding.eventImage)
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 }

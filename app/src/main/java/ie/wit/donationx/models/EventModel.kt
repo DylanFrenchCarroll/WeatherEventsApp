@@ -10,11 +10,10 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class EventModel(
     var uid: String? = "",
-    var paymenttype: String = "N/A",
-    var amount: Int = 0,
+    var eventtype: String = "Crash",
     var message: String = "Homer for President!",
-    var upvotes: Int = 0,
     var profilepic: String = "",
+    var eventimg: String = "",
     var email: String? = "joe@bloggs.com",
     var latitude: Double = 0.0,
     var longitude: Double = 0.0
@@ -25,11 +24,10 @@ data class EventModel(
     fun toMap(): Map<String, Any?> {
         return mapOf(
             "uid" to uid,
-            "paymenttype" to paymenttype,
-            "amount" to amount,
+            "eventtype" to eventtype,
             "message" to message,
-            "upvotes" to upvotes,
             "profilepic" to profilepic,
+            "eventimg" to eventimg,
             "email" to email,
             "latitude" to latitude,
             "longitude" to longitude

@@ -163,7 +163,7 @@ class MapsFragment : Fragment() {
 
                 var marker: Marker? = mapsViewModel.map.addMarker(
                     MarkerOptions().position(LatLng(it.latitude, it.longitude))
-                        .title("${it.paymenttype} €${it.amount}")
+                        .title("${it.eventtype}")
                         .snippet(it.message)
                         .icon(BitmapDescriptorFactory.defaultMarker(markerColour))
                 )

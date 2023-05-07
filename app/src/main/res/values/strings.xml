@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Weather Events</string>
-    <string name="eventTitle">Welcome Homer</string>
+    <string name="eventTitle">Enter Details of Event</string>
     <string name="eventSubtitle">Please Give Generously</string>
-    <string name="eventButton">Event</string>
+    <string name="eventButton">Add Event</string>
     <string name="paypal">PayPal</string>
     <string name="direct">Direct</string>
     <string name="amount">Amount</string>
@@ -30,8 +30,8 @@
     <string name="amt">Amount :</string>
     <string name="payment">Payment :</string>
     <string name="message">Message :</string>
-    <string name="upvotes">UpVotes :</string>
     <string name="messageLoading">Please Wait while the Events are Loading...</string>
+    <string name="button_addImage"> Add Image </string>
 
     <!--    <string name="total_donated">$%d</string>-->
 <!--    <string name="totalSoFar">$ Total</string>-->
@@ -62,4 +62,11 @@
     <string name="delete">Delete</string>
     <string name="select_profile_image">Select Profile Image</string>
 
+    <string-array name="event_types">
+        <item>Vehicle Crash</item>
+        <item>Fallen Cables</item>
+        <item>Fallen Tree</item>
+        <item>Garda Checkpoint</item>
+        <item>Oil Spill</item>
+    </string-array>
 </resources>
