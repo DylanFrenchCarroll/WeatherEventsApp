@@ -167,7 +167,7 @@ class ReportFragment : Fragment(), EventClickListener{
 
     override fun onResume() {
         super.onResume()
-        showLoader(loader,"Downloading Donations")
+        showLoader(loader,"Downloading Events")
         loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
             if (firebaseUser != null) {
                 reportViewModel.liveFirebaseUser.value = firebaseUser

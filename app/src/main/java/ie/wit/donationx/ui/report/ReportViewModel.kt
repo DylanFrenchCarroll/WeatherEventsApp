@@ -35,7 +35,6 @@ class ReportViewModel : ViewModel() {
 
     fun delete(userid: String, id: String) {
         try {
-            //DonationManager.delete(userid,id)
             FirebaseDBManager.delete(userid,id)
             Timber.i("Report Delete Success")
         }

@@ -2,10 +2,12 @@ package ie.wit.donationx.ui.event
 
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
@@ -33,7 +35,8 @@ import ie.wit.donationx.ui.report.ReportViewModel
 import ie.wit.donationx.ui.utils.NothingSelectedSpinnerAdapter
 import ie.wit.donationx.ui.utils.showImagePicker
 import timber.log.Timber.i
-import java.util.UUID
+import java.util.*
+
 
 class EventFragment : Fragment() {
 
@@ -47,6 +50,8 @@ class EventFragment : Fragment() {
     private val mapsViewModel: MapsViewModel by activityViewModels()
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
     private lateinit var eventImage: Uri
+    private var eventType: String = ""
+    private var imageSelected: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +73,7 @@ class EventFragment : Fragment() {
             showImagePicker(imageIntentLauncher)
         }
         registerImagePickerCallback()
-        setupDropdown(root)
+        setupDropdown(fragBinding.eventFragment)
         setButtonListener(fragBinding)
         return root;
     }
@@ -84,6 +89,22 @@ class EventFragment : Fragment() {
             R.layout.contact_spinner_row_nothing_selected,  // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
             this.context
         )
+        var context: Context? = this.context
+        val eventTypes = resources.getStringArray(R.array.event_types)
+        spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+
+            override fun onItemSelected(arg0: AdapterView<*>?, arg1: View?, position: Int, arg3: Long) {
+                if(position !== 0 ) {
+                    eventType = eventTypes[position-1]
+                    Toast.makeText(context,  " Position: " + position + " - Name: " + eventTypes[position-1], Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
 
@@ -120,15 +141,26 @@ class EventFragment : Fragment() {
 
     fun setButtonListener(layout: FragmentEventBinding) {
         layout.eventButton.setOnClickListener {
-                val eventtype = /*if(layout.paymentMethod.checkedRadioButtonId == R.id.Direct) "Direct" else */ "Paypal"
-                val imgID = UUID.randomUUID().toString()
-                eventViewModel.addEvent(loggedInViewModel.liveFirebaseUser, EventModel( eventtype = eventtype,
-                                                                                        email = loggedInViewModel.liveFirebaseUser.value?.email!!,
-                                                                                        eventimg = "${imgID}.jpg",
-                                                                                        latitude = mapsViewModel.currentLocation.value!!.latitude,
-                                                                                        longitude = mapsViewModel.currentLocation.value!!.longitude),
-                    )
+            var imgID: String
+            if( imageSelected ){
+                imgID = "${UUID.randomUUID().toString()}.jpg"
+            }else{
+                imgID = ""
+            }
+                eventViewModel.addEvent(
+                    loggedInViewModel.liveFirebaseUser,
+                    EventModel(
+                        eventtype = eventType!!,
+                        email = loggedInViewModel.liveFirebaseUser.value?.email!!,
+                        eventimg = imgID,
+                        latitude = mapsViewModel.currentLocation.value!!.latitude,
+                        longitude = mapsViewModel.currentLocation.value!!.longitude
+                    ),
+                )
+            if( imageSelected ){
                 FirebaseImageManager.uploadImageEvent(imgID, eventImage)
+            }
+
         }
     }
 
@@ -164,6 +196,7 @@ class EventFragment : Fragment() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Result ${result.data!!.data}")
+                            imageSelected = true
                             eventImage = result.data!!.data!!
                             Picasso.get()
                                 .load(eventImage)
