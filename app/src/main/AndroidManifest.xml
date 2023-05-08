@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="ie.wit.donationx"
+    package="ie.wit.eventx"
     >
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name=".main.WeatherEvents"
+        android:name="ie.wit.eventx.main.WeatherEvents"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -37,7 +37,7 @@
 
 
         <activity
-            android:name=".ui.auth.Login"
+            android:name="ie.wit.eventx.ui.auth.Login"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,7 +49,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity android:name=".ui.home.Home" >
+        <activity android:name="ie.wit.eventx.ui.home.Home" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

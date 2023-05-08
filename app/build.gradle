@@ -10,11 +10,11 @@ plugins {
 }
 
 android {
-    namespace 'ie.wit.donationx'
+    namespace 'ie.wit.eventx'
     compileSdk 33
 
     defaultConfig {
-        applicationId "ie.wit.donationx"
+        applicationId "ie.wit.eventx"
         minSdk 30
         targetSdk 33
         versionCode 1

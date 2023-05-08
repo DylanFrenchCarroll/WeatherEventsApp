@@ -6,7 +6,7 @@
     <data>
         <variable
             name="eventvm"
-            type="ie.wit.donationx.ui.detail.EventDetailViewModel" />
+            type="ie.wit.eventx.ui.detail.EventDetailViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:tools="http://schemas.android.com/tools"

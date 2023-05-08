@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/eventFragment"
-        android:name="ie.wit.donationx.ui.event.EventFragment"
+        android:name="ie.wit.eventx.ui.event.EventFragment"
         android:label="@string/action_event"
         tools:layout="@layout/fragment_event" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/reportFragment"
-        android:name="ie.wit.donationx.ui.report.ReportFragment"
+        android:name="ie.wit.eventx.ui.report.ReportFragment"
         android:label="@string/action_report"
         tools:layout="@layout/fragment_report" >
         <action
@@ -35,12 +35,12 @@
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="ie.wit.donationx.ui.about.AboutFragment"
+        android:name="ie.wit.eventx.ui.about.AboutFragment"
         android:label="@string/action_about"
         tools:layout="@layout/fragment_about" />
     <fragment
         android:id="@+id/eventDetailFragment"
-        android:name="ie.wit.donationx.ui.detail.EventDetailFragment"
+        android:name="ie.wit.eventx.ui.detail.EventDetailFragment"
         android:label="Event Details"
         tools:layout="@layout/fragment_event_detail" >
         <action
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="ie.wit.donationx.ui.map.MapsFragment"
+        android:name="ie.wit.eventx.ui.map.MapsFragment"
         android:label="Event Map"
         tools:layout="@layout/fragment_maps" >
         <action
@@ -66,12 +66,12 @@
 
     <fragment
         android:id="@+id/readOnlyEvent"
-        android:name="ie.wit.donationx.ui.readOnly.ReadOnlyEventFragment"
+        android:name="ie.wit.eventx.ui.readOnly.ReadOnlyEventFragment"
         android:label="Event Details"
         tools:layout="@layout/fragment_read_only_event" >
         <argument
             android:name="event"
-            app:argType="ie.wit.donationx.models.EventModel"
+            app:argType="ie.wit.eventx.models.EventModel"
             app:nullable="true"
             android:defaultValue="@null" />
     </fragment>

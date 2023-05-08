@@ -6,7 +6,7 @@
     <data>
         <variable
             name="event"
-            type="ie.wit.donationx.models.EventModel" />
+            type="ie.wit.eventx.models.EventModel" />
     </data>
 
     <androidx.cardview.widget.CardView
