@@ -24,7 +24,6 @@ import androidx.navigation.ui.NavigationUI
 import com.squareup.picasso.Picasso
 import ie.wit.eventx.R
 import ie.wit.eventx.databinding.FragmentEventBinding
-import ie.wit.eventx.firebase.FirebaseImageManager
 import ie.wit.eventx.models.EventModel
 import ie.wit.eventx.ui.auth.LoggedInViewModel
 import ie.wit.eventx.ui.map.MapsViewModel
@@ -37,7 +36,6 @@ import java.util.*
 
 class EventFragment : Fragment() {
 
-    var totalDonated = 0
     private var _fragBinding: FragmentEventBinding? = null
     // This property is only valid between onCreateView and onDestroyView.
     private val fragBinding get() = _fragBinding!!
@@ -72,7 +70,7 @@ class EventFragment : Fragment() {
             i("Select image")
             showImagePicker(imageIntentLauncher)
         }
-        registerImagePickerCallback()
+        registerImagePickerCallback2()
         setupDropdown(fragBinding.eventFragment)
         setButtonListener(fragBinding)
         return root;
@@ -133,7 +131,8 @@ class EventFragment : Fragment() {
                     findNavController().popBackStack()
                 }
             }
-            false -> Toast.makeText(context,getString(R.string.eventError),Toast.LENGTH_LONG).show()
+//            false -> Toast.makeText(context,getString(R.string.eventError),Toast.LENGTH_LONG).show()
+            false -> Thread.sleep(1000)
         }
     }
 
@@ -143,23 +142,23 @@ class EventFragment : Fragment() {
             var imgID: String
             if( imageSelected ){
                 imgID = "${UUID.randomUUID().toString()}.jpg"
-            }else{
-                imgID = ""
-            }
-                eventViewModel.addEvent(
+            }else imgID = ""
+
+
+
+            eventViewModel.addEvent(
                     loggedInViewModel.liveFirebaseUser,
                     EventModel(
-                        eventtype = eventType!!,
+                        eventtype = eventType,
                         email = loggedInViewModel.liveFirebaseUser.value?.email!!,
                         message = editText.text.toString(),
-                        eventimg = imgID,
                         latitude = mapsViewModel.currentLocation.value!!.latitude,
                         longitude = mapsViewModel.currentLocation.value!!.longitude
                     ),
+                    imgID,
+                    eventImage,
                 )
-            if( imageSelected ){
-                FirebaseImageManager.uploadImageEvent(imgID, eventImage)
-            }
+
 
         }
     }
@@ -188,7 +187,7 @@ class EventFragment : Fragment() {
     }
 
 
-    private fun registerImagePickerCallback() {
+    private fun registerImagePickerCallback2() {
         imageIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
             { result ->
