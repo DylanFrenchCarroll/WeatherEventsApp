@@ -28,8 +28,8 @@
     <string name="eventError">Error : Couldn\'t Make an Event...</string>
     <string name="eventDetails">Event Details</string>
     <string name="amt">Amount :</string>
-    <string name="payment">Payment :</string>
-    <string name="message">Message :</string>
+    <string name="event_type">Event Type :</string>
+    <string name="message">Message:</string>
     <string name="messageLoading">Please Wait while the Events are Loading...</string>
     <string name="button_addImage"> Add Image </string>
 

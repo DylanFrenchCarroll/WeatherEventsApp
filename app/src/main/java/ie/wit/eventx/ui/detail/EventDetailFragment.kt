@@ -6,10 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.squareup.picasso.Picasso
 import ie.wit.eventx.databinding.FragmentEventDetailBinding
 import ie.wit.eventx.ui.auth.LoggedInViewModel
 import ie.wit.eventx.ui.report.ReportViewModel
@@ -51,6 +53,11 @@ class EventDetailFragment : Fragment() {
     private fun render() {
         fragBinding.editMessage.setText("This Message")
         fragBinding.eventvm = viewModel
+//        fragBinding.eventvm = viewModel
+
+        Picasso.get().load(viewModel.observableEvent.value?.eventimg!!.toUri())
+            .resize(300, 200)
+            .into(fragBinding.eventImage)
     }
 
 
