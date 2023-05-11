@@ -1,49 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:elevation="24dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
+    <data>
+
+        <variable
+            name="event"
+            type="ie.wit.eventx.models.EventModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_marginBottom="8dp"
+        android:elevation="24dp">
 
-        <ImageView
-            android:id="@+id/imageIcon"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="16dp"
-            app:srcCompat="@mipmap/ic_launcher_round"
-            android:contentDescription="@string/app_name" />
-
-        <TextView
-            android:id="@+id/paymentamount"
-            android:layout_width="121dp"
+        <RelativeLayout
+            android:id="@+id/cardEvent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_toEndOf="@+id/imageIcon"
-            android:textSize="24sp"
-            tools:text="€1000" />
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/paymentmethod"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="15dp"
-            android:layout_toEndOf="@+id/paymentamount"
-            android:text="@string/paypal"
-            android:textSize="24sp" />
 
-    </RelativeLayout>
-</androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/imageIcon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="0dp"
+                android:contentDescription="@string/app_name"
+                app:srcCompat="@mipmap/ic_launcher_round" />
+
+            <TextView
+                android:id="@+id/paymentmethod"
+                android:layout_width="122dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="23dp"
+                android:layout_marginEnd="15dp"
+                android:layout_toStartOf="@+id/imagefavourite"
+                android:layout_toEndOf="@+id/imageIcon"
+                android:gravity="center"
+                android:text="@{event.eventtype}"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                tools:text="@string/paypal" />
+
+            <ImageView
+                android:id="@+id/imagefavourite"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="23dp"
+                android:layout_marginEnd="15dp"
+                app:srcCompat="@android:drawable/star_big_off" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

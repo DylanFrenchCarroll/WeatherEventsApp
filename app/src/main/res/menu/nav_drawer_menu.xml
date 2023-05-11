@@ -12,7 +12,11 @@
             android:icon="@drawable/ic_menu_report"
             android:title="@string/action_report" />
         <item
-            android:id="@+id/aboutusFragment"
+            android:id="@+id/mapsFragment"
+            android:icon="@drawable/ic_menu_location"
+            android:title="@string/action_location" />
+        <item
+            android:id="@+id/aboutFragment"
             android:icon="@drawable/ic_menu_aboutus"
             android:title="@string/action_about" />
     </group>
@@ -26,6 +30,20 @@
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"
                 android:title="@string/action_send" />
+        </menu>
+    </item>
+    <item android:title="Access Control">
+        <menu>
+            <item
+                android:id="@+id/signout"
+                android:icon="@android:drawable/ic_menu_revert"
+                android:onClick="signOut"
+                android:title="@string/sign_out" />
+            <item
+                android:id="@+id/swapTheme"
+                android:icon="@drawable/baseline_dark_mode_24"
+                android:onClick="switchTheme"
+                android:title="Switch Theme" />
         </menu>
     </item>
 </menu>

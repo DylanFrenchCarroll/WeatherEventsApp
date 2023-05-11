@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "177701868861",
+    "firebase_url": "https://msc-mobile-dev-default-rtdb.firebaseio.com",
+    "project_id": "msc-mobile-dev",
+    "storage_bucket": "msc-mobile-dev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177701868861:android:dad3474323484cfbcc2154",
+        "android_client_info": {
+          "package_name": "ie.wit.eventx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "177701868861-porq1q1v47al1g2u9nk2rqq8c9a4berc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ie.wit.eventx",
+            "certificate_hash": "8f9c4be54d8677007602b84137a509f50ad8a2d1"
+          }
+        },
+        {
+          "client_id": "177701868861-e9ae5lqes6786i64nbtjcmeoj0g025u3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGVq7lWR_cZC8kWc8ESum-Fa4OIxV6hls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "177701868861-e9ae5lqes6786i64nbtjcmeoj0g025u3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
