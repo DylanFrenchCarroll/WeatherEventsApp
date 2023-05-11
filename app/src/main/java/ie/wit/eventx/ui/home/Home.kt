@@ -2,8 +2,10 @@ package ie.wit.eventx.ui.home
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
@@ -20,6 +22,8 @@ import com.google.firebase.auth.FirebaseUser
 import ie.wit.eventx.R
 import ie.wit.eventx.databinding.HomeBinding
 import ie.wit.eventx.databinding.NavHeaderBinding
+import ie.wit.eventx.firebase.FirebaseDBManager
+import ie.wit.eventx.firebase.FirebaseDBService
 import ie.wit.eventx.firebase.FirebaseImageManager
 import ie.wit.eventx.ui.auth.LoggedInViewModel
 import ie.wit.eventx.ui.auth.Login
@@ -66,7 +70,9 @@ class Home : AppCompatActivity() {
             mapsViewModel.updateCurrentLocation()
         }
 
+
     }
+
 
     public override fun onStart() {
         super.onStart()
@@ -81,6 +87,7 @@ class Home : AppCompatActivity() {
                 startActivity(Intent(this, Login::class.java))
             }
         })
+        FirebaseDBService.subToTopic()
         registerImagePickerCallback()
 
     }

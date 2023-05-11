@@ -32,7 +32,7 @@
     <string name="message">Message:</string>
     <string name="messageLoading">Please Wait while the Events are Loading...</string>
     <string name="button_addImage"> Add Image </string>
-
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <!--    <string name="total_donated">$%d</string>-->
 <!--    <string name="totalSoFar">$ Total</string>-->
 
