@@ -26,19 +26,14 @@ import ie.wit.eventx.models.EventModel
 import ie.wit.eventx.ui.auth.LoggedInViewModel
 import ie.wit.eventx.ui.utils.*
 
-class ReportFragment : Fragment(), EventClickListener{
+class ReportFragment : Fragment(), EventClickListener {
 
     lateinit var app: WeatherEvents
     private var _fragBinding: FragmentReportBinding? = null
     private val fragBinding get() = _fragBinding!!
-    lateinit var loader : AlertDialog
+    lateinit var loader: AlertDialog
     private val reportViewModel: ReportViewModel by activityViewModels()
-    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        setHasOptionsMenu(true)
-    }
+    private val loggedInViewModel: LoggedInViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,9 +45,8 @@ class ReportFragment : Fragment(), EventClickListener{
         loader = createLoader(requireActivity())
         fragBinding.recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        showLoader(loader,"Downloading Events")
-        reportViewModel.observableEventsList.observe(viewLifecycleOwner, Observer {
-                events ->
+        showLoader(loader, "Downloading Events")
+        reportViewModel.observableEventsList.observe(viewLifecycleOwner, Observer { events ->
             events?.let {
                 render(events as ArrayList<EventModel>)
                 hideLoader(loader)
@@ -69,10 +63,13 @@ class ReportFragment : Fragment(), EventClickListener{
 
         val swipeDeleteHandler = object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                showLoader(loader,"Deleting Event")
+                showLoader(loader, "Deleting Event")
                 val adapter = fragBinding.recyclerView.adapter as EventAdapter
                 adapter.removeAt(viewHolder.adapterPosition)
-                reportViewModel.delete(reportViewModel.liveFirebaseUser.value?.uid!!, (viewHolder.itemView.tag as EventModel).uid!!)
+                reportViewModel.delete(
+                    reportViewModel.liveFirebaseUser.value?.uid!!,
+                    (viewHolder.itemView.tag as EventModel).uid!!
+                )
                 hideLoader(loader)
             }
         }
@@ -115,15 +112,18 @@ class ReportFragment : Fragment(), EventClickListener{
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 // Validate and handle the selected menu item
-                return NavigationUI.onNavDestinationSelected(menuItem,
-                    requireView().findNavController())
+                return NavigationUI.onNavDestinationSelected(
+                    menuItem,
+                    requireView().findNavController()
+                )
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
 
     private fun render(eventsList: ArrayList<EventModel>) {
-        fragBinding.recyclerView.adapter = EventAdapter(eventsList, this, reportViewModel.readOnly.value!!)
+        fragBinding.recyclerView.adapter =
+            EventAdapter(eventsList, this, reportViewModel.readOnly.value!!)
         if (eventsList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.eventsNotFound.visibility = View.VISIBLE
@@ -135,28 +135,29 @@ class ReportFragment : Fragment(), EventClickListener{
 
     override fun onEventClick(event: EventModel) {
 
-            if(event.email == loggedInViewModel.liveFirebaseUser.value?.email ){
-                val action = ReportFragmentDirections.actionReportFragmentToEventDetailFragment(event.uid!!)
-                findNavController().navigate(action)
-            }else{
-                val action = ReportFragmentDirections.actionReportFragmentToReadOnlyEvent(event)
-                findNavController().navigate(action)
-            }
+        if (event.email == loggedInViewModel.liveFirebaseUser.value?.email) {
+            val action =
+                ReportFragmentDirections.actionReportFragmentToEventDetailFragment(event.uid!!)
+            findNavController().navigate(action)
+        } else {
+            val action = ReportFragmentDirections.actionReportFragmentToReadOnlyEvent(event)
+            findNavController().navigate(action)
+        }
     }
 
     fun setSwipeRefresh() {
         fragBinding.swiperefresh.setOnRefreshListener {
             fragBinding.swiperefresh.isRefreshing = true
-            showLoader(loader,"Downloading Events")
+            showLoader(loader, "Downloading Events")
 
-            if(reportViewModel.readOnly.value!!){
+            if (reportViewModel.readOnly.value!!) {
                 reportViewModel.loadAll()
-            }
-            else{
+            } else {
                 reportViewModel.load()
             }
         }
     }
+
     fun checkSwipeRefresh() {
         if (fragBinding.swiperefresh.isRefreshing)
             fragBinding.swiperefresh.isRefreshing = false
@@ -164,7 +165,7 @@ class ReportFragment : Fragment(), EventClickListener{
 
     override fun onResume() {
         super.onResume()
-        showLoader(loader,"Downloading Events")
+        showLoader(loader, "Downloading Events")
         loggedInViewModel.liveFirebaseUser.observe(viewLifecycleOwner, Observer { firebaseUser ->
             if (firebaseUser != null) {
                 reportViewModel.liveFirebaseUser.value = firebaseUser
@@ -178,7 +179,6 @@ class ReportFragment : Fragment(), EventClickListener{
         super.onDestroyView()
         _fragBinding = null
     }
-
 
 
 }

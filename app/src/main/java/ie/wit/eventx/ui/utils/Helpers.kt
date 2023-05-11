@@ -13,7 +13,7 @@ import com.squareup.picasso.Transformation
 import ie.wit.eventx.R
 import java.io.IOException
 
-fun createLoader(activity: FragmentActivity) : AlertDialog {
+fun createLoader(activity: FragmentActivity): AlertDialog {
     val loaderBuilder = AlertDialog.Builder(activity)
         .setCancelable(true) // 'false' if you want user to wait
         .setView(R.layout.loading)
@@ -52,7 +52,7 @@ fun serviceAvailableMessage(activity: FragmentActivity) {
     ).show()
 }
 
-fun customTransformation() : Transformation =
+fun customTransformation(): Transformation =
     RoundedTransformationBuilder()
         .borderColor(Color.WHITE)
         .borderWidthDp(2F)
@@ -60,7 +60,7 @@ fun customTransformation() : Transformation =
         .oval(false)
         .build()
 
-fun showImagePicker(intentLauncher : ActivityResultLauncher<Intent>) {
+fun showImagePicker(intentLauncher: ActivityResultLauncher<Intent>) {
     var chooseFile = Intent(Intent.ACTION_OPEN_DOCUMENT)
     chooseFile.type = "image/*"
     chooseFile = Intent.createChooser(chooseFile, R.string.select_profile_image.toString())
@@ -70,8 +70,9 @@ fun showImagePicker(intentLauncher : ActivityResultLauncher<Intent>) {
 fun readImageUri(resultCode: Int, data: Intent?): Uri? {
     var uri: Uri? = null
     if (resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-        try { uri = data.data }
-        catch (e: IOException) {
+        try {
+            uri = data.data
+        } catch (e: IOException) {
             e.printStackTrace()
         }
     }

@@ -1,14 +1,14 @@
 package ie.wit.eventx.ui.detail
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.squareup.picasso.Picasso
@@ -21,8 +21,8 @@ class EventDetailFragment : Fragment() {
     private lateinit var viewModel: EventDetailViewModel
     private var _fragBinding: FragmentEventDetailBinding? = null
     private val fragBinding get() = _fragBinding!!
-    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
-    private val reportViewModel : ReportViewModel by activityViewModels()
+    private val loggedInViewModel: LoggedInViewModel by activityViewModels()
+    private val reportViewModel: ReportViewModel by activityViewModels()
 
 
     override fun onCreateView(
@@ -37,14 +37,18 @@ class EventDetailFragment : Fragment() {
         viewModel.observableEvent.observe(viewLifecycleOwner, Observer { render() })
 
         fragBinding.editEventButton.setOnClickListener {
-            viewModel.updateEvent(loggedInViewModel.liveFirebaseUser.value?.uid!!,
-                args.eventid, fragBinding.eventvm?.observableEvent!!.value!!)
+            viewModel.updateEvent(
+                loggedInViewModel.liveFirebaseUser.value?.uid!!,
+                args.eventid, fragBinding.eventvm?.observableEvent!!.value!!
+            )
             findNavController().navigateUp()
         }
 
         fragBinding.deleteEventButton.setOnClickListener {
-            reportViewModel.delete(loggedInViewModel.liveFirebaseUser.value?.email!!,
-                viewModel.observableEvent.value?.uid!!)
+            reportViewModel.delete(
+                loggedInViewModel.liveFirebaseUser.value?.email!!,
+                viewModel.observableEvent.value?.uid!!
+            )
             findNavController().navigateUp()
         }
         return root

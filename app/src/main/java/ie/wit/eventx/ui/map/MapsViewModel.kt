@@ -13,9 +13,9 @@ import timber.log.Timber
 @SuppressLint("MissingPermission")
 class MapsViewModel(application: Application) : AndroidViewModel(application) {
 
-    lateinit var map : GoogleMap
+    lateinit var map: GoogleMap
     var currentLocation = MutableLiveData<Location>()
-    var locationClient : FusedLocationProviderClient
+    var locationClient: FusedLocationProviderClient
     val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 10000)
         .setWaitForAccurateLocation(false)
         .setMinUpdateIntervalMillis(5000)
@@ -31,12 +31,14 @@ class MapsViewModel(application: Application) : AndroidViewModel(application) {
 
     init {
         locationClient = LocationServices.getFusedLocationProviderClient(application)
-        locationClient.requestLocationUpdates(locationRequest, locationCallback,
-            Looper.getMainLooper())
+        locationClient.requestLocationUpdates(
+            locationRequest, locationCallback,
+            Looper.getMainLooper()
+        )
     }
 
     fun updateCurrentLocation() {
-        if(locationClient.lastLocation.isSuccessful)
+        if (locationClient.lastLocation.isSuccessful)
             locationClient.lastLocation
                 .addOnSuccessListener { location: Location? ->
                     currentLocation.value = location!!

@@ -20,25 +20,25 @@ class ReportViewModel : ViewModel() {
     var readOnly = MutableLiveData(false)
 
 
-    init { load() }
+    init {
+        load()
+    }
 
     fun load() {
         try {
             readOnly.value = false
             FirebaseDBManager.findAll(liveFirebaseUser.value?.uid!!, eventsList)
             Timber.i("Report Load Success : ")
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             Timber.i("Report Load Error : $e.message")
         }
     }
 
     fun delete(userid: String, id: String) {
         try {
-            FirebaseDBManager.delete(userid,id)
+            FirebaseDBManager.delete(userid, id)
             Timber.i("Report Delete Success")
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             Timber.i("Report Delete Error : $e.message")
         }
     }
@@ -48,8 +48,7 @@ class ReportViewModel : ViewModel() {
             readOnly.value = true
             FirebaseDBManager.findAll(eventsList)
             Timber.i("Report LoadAll Success : ${eventsList.value.toString()}")
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             Timber.i("Report LoadAll Error : $e.message")
         }
     }

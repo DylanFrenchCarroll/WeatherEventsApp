@@ -2,17 +2,15 @@ package ie.wit.eventx.ui.home
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.Location
 import android.net.Uri
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
@@ -24,7 +22,6 @@ import com.google.firebase.auth.FirebaseUser
 import ie.wit.eventx.R
 import ie.wit.eventx.databinding.HomeBinding
 import ie.wit.eventx.databinding.NavHeaderBinding
-import ie.wit.eventx.firebase.FirebaseDBManager
 import ie.wit.eventx.firebase.FirebaseDBService
 import ie.wit.eventx.firebase.FirebaseImageManager
 import ie.wit.eventx.ui.auth.LoggedInViewModel
@@ -37,13 +34,13 @@ import timber.log.Timber
 class Home : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var homeBinding : HomeBinding
-    private lateinit var navHeaderBinding : NavHeaderBinding
+    private lateinit var homeBinding: HomeBinding
+    private lateinit var navHeaderBinding: NavHeaderBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var loggedInViewModel : LoggedInViewModel
-    private lateinit var headerView : android.view.View
-    private lateinit var intentLauncher : ActivityResultLauncher<Intent>
-    private val mapsViewModel : MapsViewModel by viewModels()
+    private lateinit var loggedInViewModel: LoggedInViewModel
+    private lateinit var headerView: android.view.View
+    private lateinit var intentLauncher: ActivityResultLauncher<Intent>
+    private val mapsViewModel: MapsViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,15 +57,18 @@ class Home : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 
-        appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.eventFragment, R.id.reportFragment, R.id.aboutFragment, R.id.mapsFragment), drawerLayout)
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.eventFragment, R.id.reportFragment, R.id.aboutFragment, R.id.mapsFragment
+            ), drawerLayout
+        )
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         val navView = homeBinding.navView
         navView.setupWithNavController(navController)
         initNavHeader()
 
-        if(checkLocationPermissions(this)) {
+        if (checkLocationPermissions(this)) {
             mapsViewModel.updateCurrentLocation()
         }
         checkTheme()
@@ -82,7 +82,7 @@ class Home : AppCompatActivity() {
         loggedInViewModel = ViewModelProvider(this).get(LoggedInViewModel::class.java)
         loggedInViewModel.liveFirebaseUser.observe(this, Observer { firebaseUser ->
             if (firebaseUser != null)
-                 updateNavHeader(firebaseUser)
+                updateNavHeader(firebaseUser)
         })
 
         loggedInViewModel.loggedOut.observe(this, Observer { loggedout ->
@@ -114,7 +114,8 @@ class Home : AppCompatActivity() {
                         R.drawable.ic_launcher_homer,
                         navHeaderBinding.navHeaderImage
                     )
-                }        } else // load existing image from firebase
+                }
+            } else // load existing image from firebase
             {
                 Timber.i("DX Loading Existing imageUri")
                 FirebaseImageManager.updateUserImage(
@@ -122,9 +123,10 @@ class Home : AppCompatActivity() {
                     FirebaseImageManager.imageUri.value,
                     navHeaderBinding.navHeaderImage, false
                 )
-            }    }
+            }
+        }
         navHeaderBinding.navHeaderEmail.text = currentUser.email
-        if(currentUser.displayName != null)
+        if (currentUser.displayName != null)
             navHeaderBinding.navHeaderName.text = currentUser.displayName
     }
 
@@ -206,24 +208,38 @@ class Home : AppCompatActivity() {
     private fun registerImagePickerCallback() {
         intentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                when(result.resultCode){
+                when (result.resultCode) {
                     RESULT_OK -> {
                         if (result.data != null) {
-                            Timber.i("DX registerPickerCallback() ${readImageUri(result.resultCode, result.data).toString()}")
+                            Timber.i(
+                                "DX registerPickerCallback() ${
+                                    readImageUri(
+                                        result.resultCode,
+                                        result.data
+                                    ).toString()
+                                }"
+                            )
                             FirebaseImageManager
-                                .updateUserImage(loggedInViewModel.liveFirebaseUser.value!!.uid,
+                                .updateUserImage(
+                                    loggedInViewModel.liveFirebaseUser.value!!.uid,
                                     readImageUri(result.resultCode, result.data),
                                     navHeaderBinding.navHeaderImage,
-                                    true)
+                                    true
+                                )
                         } // end of if
                     }
-                    RESULT_CANCELED -> { } else -> { }
+                    RESULT_CANCELED -> {}
+                    else -> {}
                 }
             }
     }
 
     @SuppressLint("MissingPermission")
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (isPermissionGranted(requestCode, grantResults))
             mapsViewModel.updateCurrentLocation()

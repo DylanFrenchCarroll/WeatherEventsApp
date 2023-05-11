@@ -84,57 +84,60 @@ class MapsFragment : Fragment() {
 
 
     private fun onEventClick(event: EventModel) {
-         if( loggedInViewModel.liveFirebaseUser.value?.email!! == event.email ){
-             val action = MapsFragmentDirections.actionMapsFragmentToEventDetailFragment((event.uid!!))
-             findNavController().navigate(action)
-         }else {
-             Timber.i("######" + event + "##########")
-             val action = MapsFragmentDirections.actionMapsFragmentToReadOnlyEvent((event!!))
-             findNavController().navigate(action)
-         }
+        if (loggedInViewModel.liveFirebaseUser.value?.email!! == event.email) {
+            val action =
+                MapsFragmentDirections.actionMapsFragmentToEventDetailFragment((event.uid!!))
+            findNavController().navigate(action)
+        } else {
+            val action = MapsFragmentDirections.actionMapsFragmentToReadOnlyEvent((event))
+            findNavController().navigate(action)
+        }
     }
 
 
     private fun setupMenu() {
-            (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
 
-                override fun onPrepareMenu(menu: Menu) {
-                    // Handle for example visibility of menu items
-                }
+            override fun onPrepareMenu(menu: Menu) {
+                // Handle for example visibility of menu items
+            }
 
 
-                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                    menuInflater.inflate(R.menu.menu_report, menu)
-                    val item = menu.findItem(R.id.toggleEvents) as MenuItem
-                    item.setActionView(R.layout.togglebutton_layout)
-                    val toggleEvents: SwitchCompat = item.actionView!!.findViewById(R.id.toggleButton)
-                    toggleEvents.isChecked = false
-                    toggleEvents.setOnCheckedChangeListener { _, isChecked ->
-                        if (isChecked) {
-                            reportViewModel.loadAll()
-                        } else {
-                            reportViewModel.load()
-                        }
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_report, menu)
+                val item = menu.findItem(R.id.toggleEvents) as MenuItem
+                item.setActionView(R.layout.togglebutton_layout)
+                val toggleEvents: SwitchCompat = item.actionView!!.findViewById(R.id.toggleButton)
+                toggleEvents.isChecked = false
+                toggleEvents.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        reportViewModel.loadAll()
+                    } else {
+                        reportViewModel.load()
                     }
                 }
+            }
 
 
-                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                    // Validate and handle the selected menu item
-                    return NavigationUI.onNavDestinationSelected(menuItem, requireView().findNavController())
-                }
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                // Validate and handle the selected menu item
+                return NavigationUI.onNavDestinationSelected(
+                    menuItem,
+                    requireView().findNavController()
+                )
+            }
 
-            }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-        }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
 
     private fun setMarkerListener() {
-            if (mapsViewModel.map !== null) {
-                mapsViewModel.map.setOnMarkerClickListener(OnMarkerClickListener { marker ->
-                    onEventClick(marker.tag as EventModel)
-                    false
-                })
-            }
+        if (mapsViewModel.map !== null) {
+            mapsViewModel.map.setOnMarkerClickListener(OnMarkerClickListener { marker ->
+                onEventClick(marker.tag as EventModel)
+                false
+            })
         }
+    }
 
 
     override fun onResume() {

@@ -64,18 +64,18 @@ object FirebaseDBManager : EventStore {
             .child(eventid).get().addOnSuccessListener {
                 event.value = it.getValue(EventModel::class.java)
                 Timber.i("firebase Got value ${it.value}")
-            }.addOnFailureListener{
+            }.addOnFailureListener {
                 Timber.e("firebase Error getting data $it")
             }
     }
 
-    override fun findById( eventid: String, event: MutableLiveData<EventModel>) {
+    override fun findById(eventid: String, event: MutableLiveData<EventModel>) {
 
         database.child("events")
             .child(eventid).get().addOnSuccessListener {
                 event.value = it.getValue(EventModel::class.java)
                 Timber.i("firebase Got value ${it.value}")
-            }.addOnFailureListener{
+            }.addOnFailureListener {
                 Timber.e("firebase Error getting data $it")
             }
     }
@@ -95,17 +95,17 @@ object FirebaseDBManager : EventStore {
 
         val childAdd = HashMap<String, Any>()
         childAdd["/events/$key"] = eventValues
-            childAdd["/user-events/$uid/$key"] = eventValues
+        childAdd["/user-events/$uid/$key"] = eventValues
 
         database.updateChildren(childAdd).addOnSuccessListener {
-            FirebaseImageManager.fireBaseStatus.value = true;
+            FirebaseImageManager.fireBaseStatus.value = true
         }
     }
 
 
     override fun delete(userid: String, eventid: String) {
 
-        val childDelete : MutableMap<String, Any?> = HashMap()
+        val childDelete: MutableMap<String, Any?> = HashMap()
         childDelete["/events/$eventid"] = null
         childDelete["/user-events/$userid/$eventid"] = null
 
@@ -117,7 +117,7 @@ object FirebaseDBManager : EventStore {
 
         val eventValues = event.toMap()
 
-        val childUpdate : MutableMap<String, Any?> = HashMap()
+        val childUpdate: MutableMap<String, Any?> = HashMap()
         childUpdate["events/$eventid"] = eventValues
         childUpdate["user-events/$userid/$eventid"] = eventValues
 

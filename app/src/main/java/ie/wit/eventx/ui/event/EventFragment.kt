@@ -27,7 +27,6 @@ import ie.wit.eventx.databinding.FragmentEventBinding
 import ie.wit.eventx.models.EventModel
 import ie.wit.eventx.ui.auth.LoggedInViewModel
 import ie.wit.eventx.ui.map.MapsViewModel
-import ie.wit.eventx.ui.report.ReportViewModel
 import ie.wit.eventx.ui.utils.NothingSelectedSpinnerAdapter
 import ie.wit.eventx.ui.utils.showImagePicker
 import timber.log.Timber.i
@@ -37,30 +36,28 @@ import java.util.*
 class EventFragment : Fragment() {
 
     private var _fragBinding: FragmentEventBinding? = null
+
     // This property is only valid between onCreateView and onDestroyView.
     private val fragBinding get() = _fragBinding!!
     private lateinit var eventViewModel: EventViewModel
-    private val reportViewModel: ReportViewModel by activityViewModels()
-    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+    private val loggedInViewModel: LoggedInViewModel by activityViewModels()
     private val mapsViewModel: MapsViewModel by activityViewModels()
-    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
     private lateinit var eventImage: Uri
     private var eventType: String = ""
     private var imageSelected: Boolean = false
-    private lateinit var editText : EditText
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var editText: EditText
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         _fragBinding = FragmentEventBinding.inflate(inflater, container, false)
         val root = fragBinding.root
         setupMenu()
 
         eventViewModel = ViewModelProvider(this).get(EventViewModel::class.java)
-        eventViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
-                status -> status?.let { render(status) }
+        eventViewModel.observableStatus.observe(viewLifecycleOwner, Observer { status ->
+            status?.let { render(status) }
         })
         editText = root.findViewById(R.id.editMessage) as EditText
 
@@ -71,15 +68,19 @@ class EventFragment : Fragment() {
         registerImagePickerCallback2()
         setupDropdown(fragBinding.eventFragment)
         setButtonListener(fragBinding)
-        return root;
+        return root
     }
 
 
-    private fun setupDropdown(root: ConstraintLayout){
+    private fun setupDropdown(root: ConstraintLayout) {
         val spinner: Spinner = root.findViewById(R.id.event_type)
-        var adapter : ArrayAdapter<CharSequence> =  ArrayAdapter.createFromResource( this.requireContext()!!, R.array.event_types, android.R.layout.simple_spinner_dropdown_item)
+        var adapter: ArrayAdapter<CharSequence> = ArrayAdapter.createFromResource(
+            this.requireContext(),
+            R.array.event_types,
+            android.R.layout.simple_spinner_dropdown_item
+        )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinner.setPrompt("Select Event Type!");
+        spinner.prompt = "Select Event Type!"
         spinner.adapter = NothingSelectedSpinnerAdapter(
             adapter,
             R.layout.contact_spinner_row_nothing_selected,  // R.layout.contact_spinner_nothing_selected_dropdown, // Optional
@@ -87,11 +88,13 @@ class EventFragment : Fragment() {
         )
         var context: Context? = this.context
         val eventTypes = resources.getStringArray(R.array.event_types)
-        spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
-            override fun onItemSelected(arg0: AdapterView<*>?, arg1: View?, position: Int, arg3: Long) {
-                if(position !== 0 ) {
-                    eventType = eventTypes[position-1]
+            override fun onItemSelected(
+                arg0: AdapterView<*>?, arg1: View?, position: Int, arg3: Long
+            ) {
+                if (position !== 0) {
+                    eventType = eventTypes[position - 1]
                 }
 
             }
@@ -99,7 +102,7 @@ class EventFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO("Not yet implemented")
             }
-        })
+        }
     }
 
 
@@ -115,8 +118,9 @@ class EventFragment : Fragment() {
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 // Validate and handle the selected menu item
-                return NavigationUI.onNavDestinationSelected(menuItem,
-                    requireView().findNavController())
+                return NavigationUI.onNavDestinationSelected(
+                    menuItem, requireView().findNavController()
+                )
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
@@ -142,34 +146,26 @@ class EventFragment : Fragment() {
                 if (this::eventImage.isInitialized) {
                     var imgID: String
                     if (imageSelected) {
-                        imgID = "${UUID.randomUUID().toString()}.jpg"
+                        imgID = "${UUID.randomUUID()}.jpg"
                     } else imgID = ""
 
                     eventViewModel.addEvent(
-                        loggedInViewModel.liveFirebaseUser,
-                        EventModel(
+                        loggedInViewModel.liveFirebaseUser, EventModel(
                             eventtype = eventType,
                             email = loggedInViewModel.liveFirebaseUser.value?.email!!,
                             message = editText.text.toString(),
                             latitude = mapsViewModel.currentLocation.value!!.latitude,
                             longitude = mapsViewModel.currentLocation.value!!.longitude
-                        ),
-                        imgID,
-                        eventImage,
-                        viewLifecycleOwner
+                        ), imgID, eventImage, viewLifecycleOwner
                     )
                 } else {
                     Toast.makeText(
-                        this.context,
-                        getString(R.string.please_select_image),
-                        Toast.LENGTH_LONG
+                        this.context, getString(R.string.please_select_image), Toast.LENGTH_LONG
                     ).show()
                 }
             } else {
                 Toast.makeText(
-                    this.context,
-                    getString(R.string.please_select_event),
-                    Toast.LENGTH_LONG
+                    this.context, getString(R.string.please_select_event), Toast.LENGTH_LONG
                 ).show()
 
             }
@@ -184,13 +180,9 @@ class EventFragment : Fragment() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item,
-            requireView().findNavController()) || super.onOptionsItemSelected(item)
-    }
-
-
-    override fun onResume() {
-        super.onResume()
+        return NavigationUI.onNavDestinationSelected(
+            item, requireView().findNavController()
+        ) || super.onOptionsItemSelected(item)
     }
 
 
@@ -202,20 +194,18 @@ class EventFragment : Fragment() {
 
     private fun registerImagePickerCallback2() {
         imageIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { result ->
-                when(result.resultCode){
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                when (result.resultCode) {
                     RESULT_OK -> {
                         if (result.data != null) {
                             i("Got Result ${result.data!!.data}")
                             imageSelected = true
                             eventImage = result.data!!.data!!
-                            Picasso.get()
-                                .load(eventImage)
-                                .into(fragBinding.eventImage)
+                            Picasso.get().load(eventImage).into(fragBinding.eventImage)
                         } // end of if
                     }
-                    RESULT_CANCELED -> { } else -> { }
+                    RESULT_CANCELED -> {}
+                    else -> {}
                 }
             }
     }

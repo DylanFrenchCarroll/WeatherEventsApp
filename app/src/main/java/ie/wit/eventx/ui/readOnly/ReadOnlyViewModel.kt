@@ -8,22 +8,25 @@ import ie.wit.eventx.models.EventModel
 import timber.log.Timber
 
 
-
 class ReadOnlyViewModel : ViewModel() {
     private val event = MutableLiveData<EventModel>()
 
     var observableEvent: LiveData<EventModel>
         get() = event
-        set(value) {event.value = value.value}
-
-
-    fun getEvent( eventid: String) {
-        try {
-            FirebaseDBManager.findById( eventid, event)
-            Timber.i("Detail getEvent() Success : ${
-                event.value.toString()}")
+        set(value) {
+            event.value = value.value
         }
-        catch (e: Exception) {
+
+
+    fun getEvent(eventid: String) {
+        try {
+            FirebaseDBManager.findById(eventid, event)
+            Timber.i(
+                "Detail getEvent() Success : ${
+                    event.value.toString()
+                }"
+            )
+        } catch (e: Exception) {
             Timber.i("Detail getEvent() Error : $e.message")
         }
     }

@@ -16,9 +16,7 @@ data class EventModel(
     var email: String? = "joe@bloggs.com",
     var latitude: Double = 0.0,
     var longitude: Double = 0.0
-)
-    : Parcelable
-{
+) : Parcelable {
     @Exclude
     fun toMap(): Map<String, Any?> {
         return mapOf(

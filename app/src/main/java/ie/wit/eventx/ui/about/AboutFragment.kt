@@ -14,12 +14,12 @@ class AboutFragment : Fragment() {
     private lateinit var aboutViewModel: AboutViewModel
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         aboutViewModel =
-                ViewModelProvider(this).get(AboutViewModel::class.java)
+            ViewModelProvider(this).get(AboutViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_about, container, false)
         //val textView: TextView = root.findViewById(R.id.text_slideshow)
         aboutViewModel.text.observe(viewLifecycleOwner, Observer {

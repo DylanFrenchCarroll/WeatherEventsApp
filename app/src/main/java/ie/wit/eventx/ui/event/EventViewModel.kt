@@ -14,7 +14,6 @@ class EventViewModel : ViewModel() {
         get() = status
 
 
-
     fun addEvent(
         firebaseUser: MutableLiveData<FirebaseUser>,
         event: EventModel,
@@ -22,17 +21,19 @@ class EventViewModel : ViewModel() {
         eventImage: Uri,
         viewLifecycleOwner: LifecycleOwner
     ) {
-         try {
+        try {
             event.profilepic = FirebaseImageManager.imageUri.value.toString()
             FirebaseImageManager.uploadImageEvent(imgID, eventImage, firebaseUser, event)
-            FirebaseImageManager.observableFirebaseStatus.observe( viewLifecycleOwner, Observer {
-                    fireBaseStatus -> fireBaseStatus?.let {
+            FirebaseImageManager.observableFirebaseStatus.observe(
+                viewLifecycleOwner,
+                Observer { fireBaseStatus ->
+                    fireBaseStatus?.let {
                         status.value = true
                     }
-            })
+                })
 
         } catch (e: IllegalArgumentException) {
-             status.value = false
+            status.value = false
         }
 
     }

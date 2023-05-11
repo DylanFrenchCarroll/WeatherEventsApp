@@ -4,22 +4,20 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
 import com.squareup.picasso.MemoryPolicy
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
+import ie.wit.eventx.models.EventModel
 import ie.wit.eventx.ui.utils.customTransformation
 import timber.log.Timber
 import java.io.ByteArrayOutputStream
-import com.squareup.picasso.Target
-import ie.wit.eventx.models.EventModel
-import ie.wit.eventx.ui.event.EventFragment
-import ie.wit.eventx.ui.event.EventViewModel
-import java.net.URI
 
-object FirebaseImageManager  {
+object FirebaseImageManager {
 
     var storage = FirebaseStorage.getInstance().reference
     var imageUri = MutableLiveData<Uri>()
@@ -45,7 +43,7 @@ object FirebaseImageManager  {
         }
     }
 
-    fun uploadImageToFirebase(userid: String, bitmap: Bitmap, updating : Boolean) {
+    fun uploadImageToFirebase(userid: String, bitmap: Bitmap, updating: Boolean) {
         // Get the data from an ImageView as bytes
         Timber.i("##### FIREBASE - 2 #####")
 
@@ -58,7 +56,7 @@ object FirebaseImageManager  {
         val data = baos.toByteArray()
 
         imageRef.metadata.addOnSuccessListener { //File Exists
-            if(updating) // Update existing Image
+            if (updating) // Update existing Image
             {
                 uploadTask = imageRef.putBytes(data)
                 uploadTask.addOnSuccessListener { ut ->
@@ -77,25 +75,22 @@ object FirebaseImageManager  {
         }
     }
 
-    fun updateUserImage(userid: String, imageUri : Uri?, imageView: ImageView, updating : Boolean) {
+    fun updateUserImage(userid: String, imageUri: Uri?, imageView: ImageView, updating: Boolean) {
         Timber.i("##### FIREBASE - 3 #####")
 
-        Picasso.get().load(imageUri)
-            .resize(200, 200)
-            .transform(customTransformation())
-            .memoryPolicy(MemoryPolicy.NO_CACHE)
-            .centerCrop()
-            .into(object : Target {
-                override fun onBitmapLoaded(bitmap: Bitmap?,
-                                            from: Picasso.LoadedFrom?
+        Picasso.get().load(imageUri).resize(200, 200).transform(customTransformation())
+            .memoryPolicy(MemoryPolicy.NO_CACHE).centerCrop().into(object : Target {
+                override fun onBitmapLoaded(
+                    bitmap: Bitmap?, from: Picasso.LoadedFrom?
                 ) {
                     Timber.i("DX onBitmapLoaded $bitmap")
-                    uploadImageToFirebase(userid, bitmap!!,updating)
+                    uploadImageToFirebase(userid, bitmap!!, updating)
                     imageView.setImageBitmap(bitmap)
                 }
 
-                override fun onBitmapFailed(e: java.lang.Exception?,
-                                            errorDrawable: Drawable?) {
+                override fun onBitmapFailed(
+                    e: java.lang.Exception?, errorDrawable: Drawable?
+                ) {
                     Timber.i("DX onBitmapFailed $e")
                 }
 
@@ -106,22 +101,19 @@ object FirebaseImageManager  {
     fun updateDefaultImage(userid: String, resource: Int, imageView: ImageView) {
         Timber.i("##### FIREBASE - 4 #####")
 
-        Picasso.get().load(resource)
-            .resize(200, 200)
-            .transform(customTransformation())
-            .memoryPolicy(MemoryPolicy.NO_CACHE)
-            .centerCrop()
-            .into(object : Target {
-                override fun onBitmapLoaded(bitmap: Bitmap?,
-                                            from: Picasso.LoadedFrom?
+        Picasso.get().load(resource).resize(200, 200).transform(customTransformation())
+            .memoryPolicy(MemoryPolicy.NO_CACHE).centerCrop().into(object : Target {
+                override fun onBitmapLoaded(
+                    bitmap: Bitmap?, from: Picasso.LoadedFrom?
                 ) {
                     Timber.i("DX onBitmapLoaded $bitmap")
-                    uploadImageToFirebase(userid, bitmap!!,false)
+                    uploadImageToFirebase(userid, bitmap!!, false)
                     imageView.setImageBitmap(bitmap)
                 }
 
-                override fun onBitmapFailed(e: java.lang.Exception?,
-                                            errorDrawable: Drawable?) {
+                override fun onBitmapFailed(
+                    e: java.lang.Exception?, errorDrawable: Drawable?
+                ) {
                     Timber.i("DX onBitmapFailed $e")
                 }
 
@@ -129,34 +121,31 @@ object FirebaseImageManager  {
             })
     }
 
-    fun uploadImageEvent (
-        uuid: String,
-        imageUri: Uri?,
-        firebaseUser: MutableLiveData<FirebaseUser>,
-        event: EventModel
-    ){
-       Picasso.get().load(imageUri)
-           .memoryPolicy(MemoryPolicy.NO_CACHE)
-           .into(object : Target {
-               override fun onBitmapLoaded( bitmap: Bitmap?, from: Picasso.LoadedFrom? ) {
-                   Timber.i("DX onBitmapLoaded $bitmap")
-                   uploadEventImageToFirebase(uuid, bitmap!!, firebaseUser, event)
-               }
+    fun uploadImageEvent(
+        uuid: String, imageUri: Uri?, firebaseUser: MutableLiveData<FirebaseUser>, event: EventModel
+    ) {
+        Picasso.get().load(imageUri).memoryPolicy(MemoryPolicy.NO_CACHE).into(object : Target {
+            override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                Timber.i("DX onBitmapLoaded $bitmap")
+                uploadEventImageToFirebase(uuid, bitmap!!, firebaseUser, event)
+            }
 
-               override fun onBitmapFailed(e: java.lang.Exception?,
-                                           errorDrawable: Drawable?) {
-                   Timber.i("DX onBitmapFailed $e")
-               }
+            override fun onBitmapFailed(
+                e: java.lang.Exception?, errorDrawable: Drawable?
+            ) {
+                Timber.i("DX onBitmapFailed $e")
+            }
 
-               override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
-           })
-   }
+            override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+        })
+    }
 
     fun uploadEventImageToFirebase(
         photoUUID: String,
         bitmap: Bitmap,
         firebaseUser: MutableLiveData<FirebaseUser>,
-        event: EventModel) {
+        event: EventModel
+    ) {
 
         val imgRef = storage.child("event-photos").child(photoUUID)
         val baos = ByteArrayOutputStream()
@@ -165,8 +154,7 @@ object FirebaseImageManager  {
         var uploadTask = imgRef.putBytes(data)
 
 
-        uploadTask.addOnFailureListener {
-        }.addOnSuccessListener { taskSnapshot ->
+        uploadTask.addOnFailureListener {}.addOnSuccessListener { taskSnapshot ->
         }
 
         val urlTask = uploadTask.continueWithTask { task ->
@@ -180,7 +168,7 @@ object FirebaseImageManager  {
             if (task.isSuccessful) {
                 val uri: Uri = task.result
                 event.eventimg = uri.toString()
-                FirebaseDBManager.create(firebaseUser,event)
+                FirebaseDBManager.create(firebaseUser, event)
             } else {
                 // Handle failures
                 // ...

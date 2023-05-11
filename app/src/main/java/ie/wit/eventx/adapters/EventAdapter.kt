@@ -13,21 +13,23 @@ import ie.wit.eventx.models.EventModel
 interface EventClickListener {
     fun onEventClick(event: EventModel)
 }
-class EventAdapter constructor(private var events: ArrayList<EventModel>,
-                                  private val listener: EventClickListener,
-                                  private val readOnly: Boolean)
-    : RecyclerView.Adapter<EventAdapter.MainHolder>() {
+
+class EventAdapter constructor(
+    private var events: ArrayList<EventModel>,
+    private val listener: EventClickListener,
+    private val readOnly: Boolean
+) : RecyclerView.Adapter<EventAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardEventBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return MainHolder(binding,readOnly)
+        return MainHolder(binding, readOnly)
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val event = events[holder.adapterPosition]
-        holder.bind(event,listener)
+        holder.bind(event, listener)
     }
 
     fun removeAt(position: Int) {
@@ -37,7 +39,7 @@ class EventAdapter constructor(private var events: ArrayList<EventModel>,
 
     override fun getItemCount(): Int = events.size
 
-    inner class MainHolder(val binding : CardEventBinding, private val readOnly : Boolean) :
+    inner class MainHolder(val binding: CardEventBinding, private val readOnly: Boolean) :
         RecyclerView.ViewHolder(binding.root) {
 
         val readOnlyRow = readOnly

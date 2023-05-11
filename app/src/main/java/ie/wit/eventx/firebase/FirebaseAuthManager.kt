@@ -31,7 +31,8 @@ class FirebaseAuthManager(application: Application) {
             loggedOut.postValue(false)
             errorStatus.postValue(false)
             FirebaseImageManager.checkStorageForExistingProfilePic(
-                firebaseAuth!!.currentUser!!.uid)
+                firebaseAuth!!.currentUser!!.uid
+            )
         }
         configureGoogleSignIn()
     }
@@ -44,7 +45,7 @@ class FirebaseAuthManager(application: Application) {
                     liveFirebaseUser.postValue(firebaseAuth!!.currentUser)
                     errorStatus.postValue(false)
                 } else {
-                    Timber.i( "Login Failure: $task.exception!!.message")
+                    Timber.i("Login Failure: $task.exception!!.message")
                     errorStatus.postValue(true)
                 }
             })
@@ -57,7 +58,7 @@ class FirebaseAuthManager(application: Application) {
                     liveFirebaseUser.postValue(firebaseAuth!!.currentUser)
                     errorStatus.postValue(false)
                 } else {
-                    Timber.i( "Registration Failure: $task.exception!!.message")
+                    Timber.i("Registration Failure: $task.exception!!.message")
                     errorStatus.postValue(true)
                 }
             })
@@ -69,6 +70,7 @@ class FirebaseAuthManager(application: Application) {
         loggedOut.postValue(true)
         errorStatus.postValue(false)
     }
+
     private fun configureGoogleSignIn() {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -76,23 +78,23 @@ class FirebaseAuthManager(application: Application) {
             .requestEmail()
             .build()
 
-        googleSignInClient.value = GoogleSignIn.getClient(application!!.applicationContext,gso)
+        googleSignInClient.value = GoogleSignIn.getClient(application!!.applicationContext, gso)
     }
 
     fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
-        Timber.i( "WeatherEvents firebaseAuthWithGoogle:" + acct.id!!)
+        Timber.i("WeatherEvents firebaseAuthWithGoogle:" + acct.id!!)
 
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         firebaseAuth!!.signInWithCredential(credential)
             .addOnCompleteListener(application!!.mainExecutor) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update with the signed-in user's information
-                    Timber.i( "signInWithCredential:success")
+                    Timber.i("signInWithCredential:success")
                     liveFirebaseUser.postValue(firebaseAuth!!.currentUser)
 
                 } else {
                     // If sign in fails, display a message to the user.
-                    Timber.i( "signInWithCredential:failure $task.exception")
+                    Timber.i("signInWithCredential:failure $task.exception")
                     errorStatus.postValue(true)
                 }
             }

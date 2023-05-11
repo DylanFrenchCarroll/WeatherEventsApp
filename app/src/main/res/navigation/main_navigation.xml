@@ -9,7 +9,7 @@
         android:id="@+id/eventFragment"
         android:name="ie.wit.eventx.ui.event.EventFragment"
         android:label="@string/action_event"
-        tools:layout="@layout/fragment_event" >
+        tools:layout="@layout/fragment_event">
         <action
             android:id="@+id/action_eventFragment_to_reportFragment"
             app:destination="@id/reportFragment"
@@ -22,7 +22,7 @@
         android:id="@+id/reportFragment"
         android:name="ie.wit.eventx.ui.report.ReportFragment"
         android:label="@string/action_report"
-        tools:layout="@layout/fragment_report" >
+        tools:layout="@layout/fragment_report">
         <action
             android:id="@+id/action_reportFragment_to_eventFragment"
             app:destination="@id/eventFragment"
@@ -54,7 +54,7 @@
         android:id="@+id/eventDetailFragment"
         android:name="ie.wit.eventx.ui.detail.EventDetailFragment"
         android:label="Event Details"
-        tools:layout="@layout/fragment_event_detail" >
+        tools:layout="@layout/fragment_event_detail">
         <action
             android:id="@+id/action_eventDetailFragment_to_reportFragment"
             app:destination="@id/reportFragment"
@@ -70,7 +70,7 @@
         android:id="@+id/mapsFragment"
         android:name="ie.wit.eventx.ui.map.MapsFragment"
         android:label="Event Map"
-        tools:layout="@layout/fragment_maps" >
+        tools:layout="@layout/fragment_maps">
         <action
             android:id="@+id/action_mapsFragment_to_eventDetailFragment"
             app:destination="@id/eventDetailFragment"
@@ -92,11 +92,11 @@
         android:id="@+id/readOnlyEvent"
         android:name="ie.wit.eventx.ui.readOnly.ReadOnlyEventFragment"
         android:label="Event Details"
-        tools:layout="@layout/fragment_read_only_event" >
+        tools:layout="@layout/fragment_read_only_event">
         <argument
             android:name="event"
+            android:defaultValue="@null"
             app:argType="ie.wit.eventx.models.EventModel"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
     </fragment>
 </navigation>
