@@ -26,7 +26,7 @@ class ReportViewModel : ViewModel() {
         try {
             readOnly.value = false
             FirebaseDBManager.findAll(liveFirebaseUser.value?.uid!!, eventsList)
-            Timber.i("Report Load Success : ${eventsList.value.toString()}")
+            Timber.i("Report Load Success : ")
         }
         catch (e: Exception) {
             Timber.i("Report Load Error : $e.message")

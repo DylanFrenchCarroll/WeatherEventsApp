@@ -100,8 +100,6 @@
         android:adjustViewBounds="true"
         android:maxWidth="300dp"
         android:maxHeight="500dp"
-
-        android:src="@drawable/aboutus_homer"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"

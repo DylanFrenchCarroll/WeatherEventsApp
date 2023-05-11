@@ -24,7 +24,7 @@
     <string name="action_about">About Us</string>
     <string name="aboutus_title">Homer for President !!</string>
     <string name="eventsNotFound">No Events Yet…\nGo Make an Event!</string>
-    <string name="aboutus_message">Hi, I\'m Homer\n\nPlease vote for me.\n\n Please Please Please Please!!</string>
+    <string name="aboutus_message">Hi, I\'m Dylan\n\nThis is my application for Msc Mobile Dev\n\n P.S. I hate UI work :) </string>
     <string name="eventError">Error : Couldn\'t Make an Event...</string>
     <string name="eventDetails">Event Details</string>
     <string name="amt">Amount :</string>
@@ -34,7 +34,7 @@
     <string name="button_addImage"> Add Image </string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <!--    <string name="total_donated">$%d</string>-->
-<!--    <string name="totalSoFar">$ Total</string>-->
+    <!--    <string name="totalSoFar">$ Total</string>-->
 
     <!-- START Firebase Resources-->
 
