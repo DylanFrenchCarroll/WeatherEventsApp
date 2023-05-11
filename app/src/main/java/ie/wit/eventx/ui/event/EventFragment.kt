@@ -48,7 +48,6 @@ class EventFragment : Fragment() {
     private var eventType: String = ""
     private var imageSelected: Boolean = false
     private lateinit var editText : EditText
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -63,7 +62,6 @@ class EventFragment : Fragment() {
         eventViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
                 status -> status?.let { render(status) }
         })
-
         editText = root.findViewById(R.id.editMessage) as EditText
 
         fragBinding.chooseImage.setOnClickListener {
@@ -138,6 +136,7 @@ class EventFragment : Fragment() {
 
 
     fun setButtonListener(layout: FragmentEventBinding) {
+
         layout.eventButton.setOnClickListener {
             if (eventType != "") {
                 if (this::eventImage.isInitialized) {

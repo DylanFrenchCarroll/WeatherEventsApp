@@ -39,6 +39,11 @@
                 android:icon="@android:drawable/ic_menu_revert"
                 android:onClick="signOut"
                 android:title="@string/sign_out" />
+            <item
+                android:id="@+id/swapTheme"
+                android:icon="@drawable/baseline_dark_mode_24"
+                android:onClick="switchTheme"
+                android:title="Switch Theme" />
         </menu>
     </item>
 </menu>

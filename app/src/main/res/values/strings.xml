@@ -63,6 +63,7 @@
     <string name="select_profile_image">Select Profile Image</string>
     <string name="please_select_image">Please upload an image for this event</string>
     <string name="please_select_event">Please select an event for this event</string>
+    <string name="choose_theme_text">Choose Theme</string>
 
     <string-array name="event_types">
         <item>Vehicle Crash</item>
