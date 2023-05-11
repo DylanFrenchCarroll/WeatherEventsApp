@@ -97,7 +97,9 @@ object FirebaseDBManager : EventStore {
         childAdd["/events/$key"] = eventValues
             childAdd["/user-events/$uid/$key"] = eventValues
 
-        database.updateChildren(childAdd)
+        database.updateChildren(childAdd).addOnSuccessListener {
+            FirebaseImageManager.fireBaseStatus.value = true;
+        }
     }
 
 

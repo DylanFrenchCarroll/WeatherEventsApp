@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.widget.ImageView
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.UploadTask
@@ -19,13 +19,15 @@ import ie.wit.eventx.ui.event.EventFragment
 import ie.wit.eventx.ui.event.EventViewModel
 import java.net.URI
 
-object FirebaseImageManager {
+object FirebaseImageManager  {
 
     var storage = FirebaseStorage.getInstance().reference
     var imageUri = MutableLiveData<Uri>()
     var eventUploadImageUri = MutableLiveData<Uri>()
     var eventDownloadImageUri = MutableLiveData<Uri>()
-    public val status = MutableLiveData<Boolean>()
+    val fireBaseStatus = MutableLiveData<Boolean>()
+    val observableFirebaseStatus: LiveData<Boolean>
+        get() = fireBaseStatus
 
     fun checkStorageForExistingProfilePic(userid: String) {
         Timber.i("##### FIREBASE - 1 #####")
@@ -156,7 +158,6 @@ object FirebaseImageManager {
         firebaseUser: MutableLiveData<FirebaseUser>,
         event: EventModel) {
 
-        status.value = false
         val imgRef = storage.child("event-photos").child(photoUUID)
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
@@ -180,7 +181,6 @@ object FirebaseImageManager {
                 val uri: Uri = task.result
                 event.eventimg = uri.toString()
                 FirebaseDBManager.create(firebaseUser,event)
-                status.value=true
             } else {
                 // Handle failures
                 // ...

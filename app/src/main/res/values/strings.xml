@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Weather Events</string>
-    <string name="eventTitle">Enter Details of Event</string>
+    <string name="eventTitle">Enter Details of Event for Current Location</string>
     <string name="eventSubtitle">Please Give Generously</string>
     <string name="eventButton">Add Event</string>
     <string name="paypal">PayPal</string>
@@ -61,6 +61,8 @@
     <string name="update">Update</string>
     <string name="delete">Delete</string>
     <string name="select_profile_image">Select Profile Image</string>
+    <string name="please_select_image">Please upload an image for this event</string>
+    <string name="please_select_event">Please select an event for this event</string>
 
     <string-array name="event_types">
         <item>Vehicle Crash</item>

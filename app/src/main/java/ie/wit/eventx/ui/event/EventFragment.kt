@@ -139,27 +139,41 @@ class EventFragment : Fragment() {
 
     fun setButtonListener(layout: FragmentEventBinding) {
         layout.eventButton.setOnClickListener {
-            var imgID: String
-            if( imageSelected ){
-                imgID = "${UUID.randomUUID().toString()}.jpg"
-            }else imgID = ""
+            if (eventType != "") {
+                if (this::eventImage.isInitialized) {
+                    var imgID: String
+                    if (imageSelected) {
+                        imgID = "${UUID.randomUUID().toString()}.jpg"
+                    } else imgID = ""
 
+                    eventViewModel.addEvent(
+                        loggedInViewModel.liveFirebaseUser,
+                        EventModel(
+                            eventtype = eventType,
+                            email = loggedInViewModel.liveFirebaseUser.value?.email!!,
+                            message = editText.text.toString(),
+                            latitude = mapsViewModel.currentLocation.value!!.latitude,
+                            longitude = mapsViewModel.currentLocation.value!!.longitude
+                        ),
+                        imgID,
+                        eventImage,
+                        viewLifecycleOwner
+                    )
+                } else {
+                    Toast.makeText(
+                        this.context,
+                        getString(R.string.please_select_image),
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            } else {
+                Toast.makeText(
+                    this.context,
+                    getString(R.string.please_select_event),
+                    Toast.LENGTH_LONG
+                ).show()
 
-
-            eventViewModel.addEvent(
-                    loggedInViewModel.liveFirebaseUser,
-                    EventModel(
-                        eventtype = eventType,
-                        email = loggedInViewModel.liveFirebaseUser.value?.email!!,
-                        message = editText.text.toString(),
-                        latitude = mapsViewModel.currentLocation.value!!.latitude,
-                        longitude = mapsViewModel.currentLocation.value!!.longitude
-                    ),
-                    imgID,
-                    eventImage,
-                )
-
-
+            }
         }
     }
 
