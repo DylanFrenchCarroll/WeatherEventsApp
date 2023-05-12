@@ -6,6 +6,7 @@ MSC Mobile App Project - Dylan French Carroll - 20080672
 ## Topics
  
 + Firebase Authentication
++ [Firebase Authentication](#firebase-authentication)
 + Firebase Realtime DB (CRUD) 
 + Notifications
 + Notification Flow
