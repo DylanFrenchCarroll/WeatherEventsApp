@@ -80,3 +80,18 @@ I create a drop down with hard coded event types that the user can select from. 
 
 ### Transitions Between Fragments
 I applied transitions between fragments using the a `nav_host` fragment. It is hard to notice these transitions as even with a very high spec PC, the emulator has an extremely low FPS or refresh rate. You can notice the `fade_in` and `fade_out` transitions when the emulator is responding in a speedy fashion. Check out `res/navigation/main_navigation.xml` to see them in the code. <br /> <br /> 
+
+### Theme Switcher + Remember Preference for App
+I created an item in the Nav Drawer to allow a use to choose between themes for the **application only**. The item can be clicked and a menu appears allowed the user to select `light`, `dark` or `System Default` theme. The change is applied and then the users preference is then saved. When the app is opened again and the user logs in, it will check for the saved theme preference and apply it. <br /> <br /> 
+
+### MVVM Pattern Followed from Labs
+I do not want to take too much credit for this work as after going through the labs I configured my project to use the same design approach and when adding new code I followed this pattern as best as I could. <br /> <br /> 
+
+### Code Linting/Refactor Applied
+I applied a code formatter to the entire code base after completion to ensure that the code did not have redundant white space and incorrect formatting as this can tend to happen when working on features and debugging. No one wants to look at unreadable code when grading. <br /> <br /> 
+
+### Git Approach
+<p>
+I used a very similar approach to GIT as I do in my workplace. I created a `Develop` branch and managed all my dev work in there. I made many commits with bad messaging and a lot of small changes once a certain bug was added or part of a feature was working. Before `Pushing` my commits up to develop, I Squashed the 3/4 commits together and updated the commit message to be something more readable and concise for other developers to easily recognise what was added/fixed in each commit. <p/>
+<p>
+Once I was happy with my final work I created a pull request and Merged it to my Master branch as this is what other people will see when they open the repo. Most people would not track the develop branch and dont want updates for every commit i make on the develop branch. Once I was happy I created a Release and tagged it v1.0 as this was the base product I would want a user to install. Further development work would then have new releases when a feature was added e.g. v1.0.1 <p/>  <br /> <br /> 
