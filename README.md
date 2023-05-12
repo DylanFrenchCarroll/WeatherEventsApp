@@ -32,3 +32,6 @@ I used Firebase Authentcation to authenticate users within my application. Users
 
 ### Firebase Realtime DB (CRUD)
 I choose the older Realtime Database to store events for my app. Users have access to CRUD functionality once they sign in. Users can delete and update events by clicking on them from the report page or on the event within the maps screen. This is all very rudimentary principles and I feel like I do not need to go too indepth on this topic as some of the specific features are explained below. <br /> 
+
+### Notifications (Firebase Messaging(FCM) + Cloud Functions)  
+To achieve my goal of sending notifications to every device once an event is created, I decided to implement Firebase Messaging and Cloud Functions.  
