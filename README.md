@@ -16,7 +16,7 @@ MSC Mobile App Project - Dylan French Carroll - 20080672
 + Nav Drawer Navigation
 + Custom Splashscreen 
 + Display event details without Update or Delete functions
-+ Swipe to update/delete
++ Swipe to Update/Delete
 + Scrollview Implemented on Some Fragments
 + Spinner Dropdown Element
 + Transitions Between Fragments
@@ -61,7 +61,16 @@ I configured Firebase Cloud storage to store images of events that are uploaded 
 I have implemented Google Maps functionality for my application. When a user adds an event it takes their current location and saves the latitude and longitude in the event data. A user can view all of their and every other notification on the map via a tab on the Nav Drawer. A user can also click on a pin on the map to view/edit/delete details of their events. They can also click events from other users and open it in a `read only view` where they can only view not edit/delete the event. I was required to enabled feature for my API in google console <br /> <br /> 
 
 ### Nav Drawer Navigation
-I used a Nav Drawer to navigate through my application. It also provides some extra options such as sign out, change profile picture, change themes and view the `about us` page. These will be discussed later in this document as will the menu navigation. 
+I used a Nav Drawer to navigate through my application. It also provides some extra options such as sign out, change profile picture, change themes and view the `about us` page. These will be discussed later in this document as will the menu navigation. <br /> <br /> 
 
- 
+### Custom Splash Screen 
+I created a custom splash screen to display when the application is loading. It contains information including the app name, my name/student number and the W.I.T. logo (Not S.E.T.U) <br /> <br /> 
 
+### Display event details without Update or Delete functions
+In the labs we could not view details of donations that were created by other users. I decided to create a new view (`readOnlyEvent`) and changed the functionality in the app to display the event in a read only view so that more information could be seen by the user. Instead of updating the logic in the already existing `donationDetail` I decided to show that I could create a new fragment and functionality for this feature. <br /> <br /> 
+
+### Swipe to Update/Delete
+I created Swipe to Update/Delete events functionality in this app. It largely follows the work done within the labs but it is useful functionality to include in my application. Not much more to discuss on this topic as I dont want to pawn the idea off as my own. <br /> <br /> 
+
+### Scrollview Implemented on Some Fragments
+When creating an event, when the user adds in image and it is displayed the `Add Event` button may disappear off the screen due to the vertical constraints added to the button in regards to the `ImageView`. I implemented a scroll view so that a user can scroll down to view the `Add Event` button. Vertical constraints allows for some space between the bottom of the page and the `Add Event` button
