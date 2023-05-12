@@ -34,4 +34,18 @@ I used Firebase Authentcation to authenticate users within my application. Users
 I choose the older Realtime Database to store events for my app. Users have access to CRUD functionality once they sign in. Users can delete and update events by clicking on them from the report page or on the event within the maps screen. This is all very rudimentary principles and I feel like I do not need to go too indepth on this topic as some of the specific features are explained below. <br /> 
 
 ### Notifications (Firebase Messaging(FCM) + Cloud Functions)  
-To achieve my goal of sending notifications to every device once an event is created, I decided to implement Firebase Messaging and Cloud Functions.  
+To achieve my goal of sending notifications to every device once an event is created, I decided to implement Firebase Messaging and Cloud Functions. <br /> 
+
+#### Notification Flow
++ A user will create an event via the app
++ The application with create the entry in the database
++ The Cloud Function has a listener set up to detect "writes" to the realtime database document "/events"
++ Once the listener detects a new write it will read the event that has been wrtitten 
++ It then uses Firebase Admin to send a message to a topic in the Firebase Messaging (FCM) 
++ FCM will then send a notification to every device that is subscriped to the topic "weatherEvents" 
++ The notification will appear on the device if the application is not open
+
+#### Firebase Cloud Functions
+
+ 
+
