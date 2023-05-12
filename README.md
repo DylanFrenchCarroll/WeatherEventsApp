@@ -25,7 +25,7 @@ MSC Mobile App Project - Dylan French Carroll - 20080672
 + [Code Linting/Refactor Applied](#code-lintingrefactor-applied)
 + [Git Approach](#git-approach)
 + [Class Diagram ](#class-diagram)
-+ [Personal Statement]()
++ [Personal Statement](#personal-statement)
 <br /> 
 
 ### Firebase Authentication
