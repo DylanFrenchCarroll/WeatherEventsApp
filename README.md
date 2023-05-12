@@ -28,16 +28,17 @@ MSC Mobile App Project - Dylan French Carroll - 20080672
 
 ### Firebase Authentication
 
-I used Firebase Authentcation to authenticate users within my application. Users can create an account with an arbitrary email/password. The email does not require verification as I dont want users to provide their actual email for demo purposes. Any combination of email/password can be used without need of an actual email address. Users can also sign in via Google to ease this process. <br /> 
+I used Firebase Authentcation to authenticate users within my application. Users can create an account with an arbitrary email/password. The email does not require verification as I dont want users to provide their actual email for demo purposes. Any combination of email/password can be used without need of an actual email address. Users can also sign in via Google to ease this process. <br /> <br /> 
 
 ### Firebase Realtime DB (CRUD)
-I choose the older Realtime Database to store events for my app. Users have access to CRUD functionality once they sign in. Users can delete and update events by clicking on them from the report page or on the event within the maps screen. This is all very rudimentary principles and I feel like I do not need to go too indepth on this topic as some of the specific features are explained below. <br /> 
+I choose the older Realtime Database to store events for my app. Users have access to CRUD functionality once they sign in. Users can delete and update events by clicking on them from the report page or on the event within the maps screen. This is all very rudimentary principles and I feel like I do not need to go too indepth on this topic as some of the specific features are explained below. <br /> <br /> 
 
 ### Notifications (Firebase Messaging(FCM) + Cloud Functions)  
 To achieve my goal of sending notifications to every device once an event is created, I decided to implement Firebase Messaging and Cloud Functions. <br /> 
 
 #### Notification Flow
-+ A user will create an event via the app
++ When a user logs in, the device is subbed to a topic "weatherEvents" in FCM
++ Then user will create an event via the app
 + The application with create the entry in the database
 + The Cloud Function has a listener set up to detect "writes" to the realtime database document "/events"
 + Once the listener detects a new write it will read the event that has been wrtitten 
@@ -46,6 +47,10 @@ To achieve my goal of sending notifications to every device once an event is cre
 + The notification will appear on the device if the application is not open
 
 #### Firebase Cloud Functions
+You can check out the cloud function that I uploaded to Firebase in the "cloud_functions" directory in the root of this repo. The function is specified in "cloud_functions/functions/indexjs". The function makes use of Firebase Admin SDK to listen to writes to the "/events" document. Once a write is detected it then creates a notification payload and a hardcoded topic ("weatherEvents") to publish it to. The admin SDK then sends the message to the topic. This is a pub-sub type service. <br/>
+
+#### Firebase Messaging 
+I used Firebase Cloud Messaging to send notification rather than create my own pub/sub service and host it online. Once a user has logged into the app their device is subbed to a topic e.g. "subscribeToTopic("weatherEvents")". This is registered with FCM and FCM can now publish notifications to be received by the device when the application is not in focus. They will not appear when the app is open. To implement this into my project, I added it via the Tools -> Firebase menu. I then ran the "FirebaseDBService.subToTopic()" function once the "Home" activity was started. 
 
  
 
