@@ -26,11 +26,9 @@ MSC Mobile App Project - Dylan French Carroll - 20080672
 + Personal Statement
 <br /> 
 
-+ ### Firebase Authentication
+### Firebase Authentication
 
-I used Firebase Authentcation to authenticate users within my application. Users can create an account with an arbitrary email/password. The email does not require verification as I dont want users to provide their actual email for demo purposes. Any combination of email/password can be used without need of an actual email address. Users can also sign in via Google to ease this process. 
+I used Firebase Authentcation to authenticate users within my application. Users can create an account with an arbitrary email/password. The email does not require verification as I dont want users to provide their actual email for demo purposes. Any combination of email/password can be used without need of an actual email address. Users can also sign in via Google to ease this process. <br /> 
 
-+ ### Firebase Realtime DB (CRUD)
-I choose the older Realtime Database to store events for my app. Users have access to CRUD functionality once they sign in. <br /> <br />  
-Users can delete and update events by clicking on them from the report page or on the event within the maps screen. <br /> <br /> 
-This is all very rudimentary principles and I feel like I do not need to go too indepth on this topic as some of the specific features are explained below. 
+### Firebase Realtime DB (CRUD)
+I choose the older Realtime Database to store events for my app. Users have access to CRUD functionality once they sign in. Users can delete and update events by clicking on them from the report page or on the event within the maps screen. This is all very rudimentary principles and I feel like I do not need to go too indepth on this topic as some of the specific features are explained below. <br /> 
