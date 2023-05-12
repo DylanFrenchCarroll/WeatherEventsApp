@@ -5,15 +5,15 @@ MSC Mobile App Project - Dylan French Carroll - 20080672
 
 ## Topics
  
-+ Firebase Authentication x
-+ Firebase Realtime DB (CRUD)  x
-+ Notifications x
-+ Notification Flow x
-+ Firebase Cloud Functions (Notifications) x
-+ Firebase Messaging (FCM) (Notifications) x
-+ Firebase Cloud Storage (Store Images for events) x 
++ Firebase Authentication
++ Firebase Realtime DB (CRUD) 
++ Notifications
++ Notification Flow
++ Firebase Cloud Functions (Notifications)
++ Firebase Messaging (FCM) (Notifications)
++ Firebase Cloud Storage (Store Images for events) 
 + Google Maps Display (Display events on map)
-+ Nav Drawer navigation
++ Nav Drawer Navigation
 + Custom Splashscreen 
 + Display event details without Update or Delete functions
 + Swipe to update/delete
@@ -60,6 +60,8 @@ I configured Firebase Cloud storage to store images of events that are uploaded 
 ### Google Maps Display
 I have implemented Google Maps functionality for my application. When a user adds an event it takes their current location and saves the latitude and longitude in the event data. A user can view all of their and every other notification on the map via a tab on the Nav Drawer. A user can also click on a pin on the map to view/edit/delete details of their events. They can also click events from other users and open it in a `read only view` where they can only view not edit/delete the event. I was required to enabled feature for my API in google console <br /> <br /> 
 
+### Nav Drawer Navigation
+I used a Nav Drawer to navigate through my application. It also provides some extra options such as sign out, change profile picture, change themes and view the `about us` page. These will be discussed later in this document as will the menu navigation. 
 
  
 
