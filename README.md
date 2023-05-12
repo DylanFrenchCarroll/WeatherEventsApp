@@ -6,12 +6,12 @@ MSC Mobile App Project - Dylan French Carroll - 20080672
 ## Topics
  
 + [Firebase Authentication](#firebase-authentication)
-+ [Firebase Realtime DB (CRUD)](#Firebase-Realtime-DB-(CRUD)) 
-+ Notifications
-+ Notification Flow
-+ Firebase Cloud Functions (Notifications)
-+ Firebase Messaging (FCM) (Notifications)
-+ Firebase Cloud Storage (Store Images for events) 
++ [Firebase Realtime DB (CRUD)](#firebase-realtime-db-crud) 
++ [Notifications](#notifications-firebase-messagingfcm--cloud-functions)
++ [Notification Flow](#notification-flow)
++ [Firebase Cloud Functions (Notifications)](#firebase-cloud-functions)
++ [Firebase Messaging (FCM) (Notifications)](#firebase-messaging)
++ [Firebase Cloud Storage (Store Images for events)](#firebase-cloud-storage)
 + Google Maps Display (Display events on map)
 + Nav Drawer Navigation
 + Custom Splashscreen 
