@@ -73,4 +73,10 @@ In the labs we could not view details of donations that were created by other us
 I created Swipe to Update/Delete events functionality in this app. It largely follows the work done within the labs but it is useful functionality to include in my application. Not much more to discuss on this topic as I dont want to pawn the idea off as my own. <br /> <br /> 
 
 ### Scrollview Implemented on Some Fragments
-When creating an event, when the user adds in image and it is displayed the `Add Event` button may disappear off the screen due to the vertical constraints added to the button in regards to the `ImageView`. I implemented a scroll view so that a user can scroll down to view the `Add Event` button. Vertical constraints allows for some space between the bottom of the page and the `Add Event` button
+When creating an event, when the user adds in image and it is displayed the `Add Event` button may disappear off the screen due to the vertical constraints added to the button in regards to the `ImageView`. I implemented a scroll view so that a user can scroll down to view the `Add Event` button. Vertical constraints allows for some space between the bottom of the page and the `Add Event` button. <br /> <br /> 
+
+### Spinner Dropdown Element
+I create a drop down with hard coded event types that the user can select from. It caused some issue trying to have a `Hint` option as Android does not seem to have a simple way of achieving this goal. This Spinner dropdown can be seen on the `Add Event` page. <br /> <br /> 
+
+### Transitions Between Fragments
+I applied transitions between fragments using the a `nav_host` fragment. It is hard to notice these transitions as even with a very high spec PC, the emulator has an extremely low FPS or refresh rate. You can notice the `fade_in` and `fade_out` transitions when the emulator is responding in a speedy fashion. Check out `res/navigation/main_navigation.xml` to see them in the code. <br /> <br /> 
