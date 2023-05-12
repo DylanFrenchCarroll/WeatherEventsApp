@@ -11,8 +11,8 @@ MSC Mobile App Project - Dylan French Carroll - 20080672
 + Notification Flow x
 + Firebase Cloud Functions (Notifications) x
 + Firebase Messaging (FCM) (Notifications) x
-+ Firebase Cloud Storage (Store Images for events)
-+ Google Maps display (Display events on map)
++ Firebase Cloud Storage (Store Images for events) x 
++ Google Maps Display (Display events on map)
 + Nav Drawer navigation
 + Custom Splashscreen 
 + Display event details without Update or Delete functions
@@ -49,13 +49,17 @@ To achieve my goal of sending notifications to every device once an event is cre
 + The notification will appear on the device if the application is not open
 
 #### Firebase Cloud Functions
-You can check out the cloud function that I uploaded to Firebase in the `cloud_functions` directory in the root of this repo. The function is specified in `cloud_functions/functions/indexjs`. The function makes use of Firebase Admin SDK to listen to writes to the `/events` document. Once a write is detected it then creates a notification payload and a hardcoded topic ("weatherEvents") to publish it to. The admin SDK then sends the message to the topic. This is a pub-sub type service. <br/>
+You can check out the cloud function that I uploaded to Firebase in the `cloud_functions` directory in the root of this repo. The function is specified in `cloud_functions/functions/indexjs`. The function makes use of Firebase Admin SDK to listen to writes to the `/events` document. Once a write is detected it then creates a notification payload and a hardcoded topic ("weatherEvents") to publish it to. The admin SDK then sends the message to the topic. This is a pub-sub type service. I was required to enabled feature for my API in google console  <br/>
 
 #### Firebase Messaging 
-I used Firebase Cloud Messaging to send notification rather than create my own pub/sub service and host it online. Once a user has logged into the app their device is subbed to a topic e.g. `subscribeToTopic("weatherEvents")`. This is registered with FCM and FCM can now publish notifications to be received by the device when the application is not in focus. They will not appear when the app is open. To implement this into my project, I added it via the `Tools -> Firebase` menu. I then ran the `FirebaseDBService.subToTopic()` function once the `Home` activity was started. <br /> <br /> 
+I used Firebase Cloud Messaging to send notification rather than create my own pub/sub service and host it online. Once a user has logged into the app their device is subbed to a topic e.g. `subscribeToTopic("weatherEvents")`. This is registered with FCM and FCM can now publish notifications to be received by the device when the application is not in focus. They will not appear when the app is open. To implement this into my project, I added it via the `Tools -> Firebase` menu. I then ran the `FirebaseDBService.subToTopic()` function once the `Home` activity was started. I was required to enabled feature for my API in google console <br /> <br /> 
 
 ### Firebase Cloud Storage
-I configured Firebase Cloud storage to store images of events that are uploaded for every event. The URI of the image is then stored in the Realtime Database as a string and converted to URI when needed within the app. As the upload of an image takes some time, I have some checks in place to ensure that the image was uploaded and the event was written to the database before we pop back to the report page to ensure consistency of data in the report list. 
+I configured Firebase Cloud storage to store images of events that are uploaded for every event. The URI of the image is then stored in the Realtime Database as a string and converted to URI when needed within the app. As the upload of an image takes some time, I have some checks in place to ensure that the image was uploaded and the event was written to the database before we pop back to the report page to ensure consistency of data in the report list. I was required to enabled feature for my API in google console <br/> <br/>
+
+### Google Maps Display
+I have implemented Google Maps functionality for my application. When a user adds an event it takes their current location and saves the latitude and longitude in the event data. A user can view all of their and every other notification on the map via a tab on the Nav Drawer. A user can also click on a pin on the map to view/edit/delete details of their events. They can also click events from other users and open it in a `read only view` where they can only view not edit/delete the event. I was required to enabled feature for my API in google console <br /> <br /> 
+
 
  
 
